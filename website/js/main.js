@@ -1,4 +1,4 @@
-/* [Business Name] — Main JS */
+/* Bridgeworks Consulting — Main JS */
 
 document.addEventListener('DOMContentLoaded', () => {
   initNav();

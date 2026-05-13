@@ -1,7 +1,7 @@
 # Service Packages
 
 **AI Agent Consulting & Implementation**  
-*[Business Name TBD]*
+*Bridgeworks Consulting*
 
 ---
 
@@ -216,4 +216,4 @@ Available with any engagement:
 
 ---
 
-*[Business Name TBD] · [Email] · [Website] · © 2026*
+*Bridgeworks Consulting · hello@bridgeworksconsulting.com · [Website] · © 2026*

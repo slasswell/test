@@ -18,7 +18,7 @@
 > out in whatever format is easiest for you.
 >
 > Looking forward to the conversation.  
-> — [Founder Name]
+> — Scott Lasswell
 
 ---
 
@@ -149,4 +149,4 @@ Notes (optional): [Your answer]
 
 *Thank you — see you on the call.*
 
-*[Founder Name] | [Business Name] | [Email] | [LinkedIn]*
+*Scott Lasswell | Bridgeworks Consulting | hello@bridgeworksconsulting.com *

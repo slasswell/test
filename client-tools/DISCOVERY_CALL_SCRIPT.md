@@ -299,4 +299,4 @@ Send a brief follow-up email. Template:
 
 ---
 
-*[Founder Name] | [Business Name] | [Email]*
+*Scott Lasswell | Bridgeworks Consulting | hello@bridgeworksconsulting.com*

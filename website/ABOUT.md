@@ -27,7 +27,7 @@ That's the gap I'm here to close.
 
 I bring the same rigor I applied in enterprise delivery — structured methodology, clear communication, stakeholder alignment, project governance — and apply it at a scale and price point that works for the businesses that need it most.
 
-**— [Founder Name]**
+**— Scott Lasswell**
 
 ---
 

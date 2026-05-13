@@ -204,7 +204,7 @@ Notes: [Your answer]
 
 **Primary point of contact for scheduling and document sharing:**  
 Name: [Name]  
-Email: [Email]  
+Email: hello@bridgeworksconsulting.com  
 Phone: [Phone]
 
 **Who should be in the discovery sessions?** *(We recommend 1–3 people per session — the people who know the workflows best, not necessarily the most senior people in the room.)*  
@@ -214,4 +214,4 @@ Phone: [Phone]
 
 *Thank you for taking the time to complete this. We'll review your answers before our first session and may follow up with a few clarifying questions. See you soon.*
 
-*[Consultant Name] | [Business Name] | [Email]*
+*Scott Lasswell | Bridgeworks Consulting | hello@bridgeworksconsulting.com*

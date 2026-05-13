@@ -504,7 +504,7 @@ We decline engagements we are not confident we can deliver well, and refer clien
 
 ### Positioning Statement Template
 
-*For [SMB owners and operators in professional services, healthcare admin, construction, retail, and real estate] who know AI is relevant to their business but don't know where to start — or who've tried tools that didn't stick — [Business Name] is the AI consulting and implementation partner that first tells you exactly where AI will create real value in your specific workflows, and then builds and deploys the agents that capture it. Unlike software vendors who sell products, large consulting firms that price out SMBs, or freelancers with no methodology, we bring enterprise-quality rigor and a boutique partner's accountability to every engagement.*
+*For [SMB owners and operators in professional services, healthcare admin, construction, retail, and real estate] who know AI is relevant to their business but don't know where to start — or who've tried tools that didn't stick — Bridgeworks Consulting is the AI consulting and implementation partner that first tells you exactly where AI will create real value in your specific workflows, and then builds and deploys the agents that capture it. Unlike software vendors who sell products, large consulting firms that price out SMBs, or freelancers with no methodology, we bring enterprise-quality rigor and a boutique partner's accountability to every engagement.*
 
 ---
 
@@ -570,5 +570,5 @@ A meridian is a reference line from which measurements are made; suggests precis
 
 ---
 
-*Document prepared by [Founder Name] | [Business Name TBD] | [Email] | [Website]*  
+*Document prepared by Scott Lasswell | Bridgeworks Consulting | hello@bridgeworksconsulting.com | bridgeworksconsulting.com*  
 *Version 2.0 — May 2026*

@@ -10,7 +10,7 @@
 | **Industry** | [Industry] |
 | **Business Size** | [X employees] |
 | **Date** | [Delivery Date] |
-| **Prepared by** | [Founder Name], [Business Name] |
+| **Prepared by** | Scott Lasswell, Bridgeworks Consulting |
 | **Engagement Scope** | [Focused / Standard / Comprehensive] |
 | **Workflows Assessed** | [Number] |
 | **Report Version** | 1.0 |
@@ -357,5 +357,5 @@ Brief summaries from each session for reference.
 
 ---
 
-*Prepared by [Founder Name] | [Business Name] | [Email] | [Website]*  
+*Prepared by Scott Lasswell | Bridgeworks Consulting | hello@bridgeworksconsulting.com | bridgeworksconsulting.com*  
 *Version 1.0 — [Date]*
