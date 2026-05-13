@@ -1,5 +1,6 @@
 #!/bin/bash
 # Usage: ./run_agent.sh --module [daily|weekly|monthly|all]
+# Called by launchd — sources ~/.agent_env explicitly since launchd doesn't load shell profiles.
 
 MODULE="all"
 TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S")

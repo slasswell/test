@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.consultingagent.executor</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/path/to/project/launchd/run-executor.sh</string>
+  </array>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>WorkingDirectory</key>
+  <string>/path/to/project</string>
+
+  <key>StandardOutPath</key>
+  <string>/path/to/project/logs/executor.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/path/to/project/logs/executor-error.log</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin</string>
+    <key>HOME</key>
+    <string>/Users/YOURUSERNAME</string>
+  </dict>
+
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
+</dict>
+</plist>
