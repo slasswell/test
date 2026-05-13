@@ -78,13 +78,12 @@ function initContactForm() {
     btn.textContent = 'Sending…';
 
     try {
-      // Using Formspree — replace ACTION_URL with your Formspree endpoint
-      // e.g. https://formspree.io/f/YOUR_FORM_ID
-      const ACTION_URL = form.action;
-      const res = await fetch(ACTION_URL, {
+      // Netlify Forms — POST to the same page as URL-encoded data
+      const encoded = new URLSearchParams(new FormData(form)).toString();
+      const res = await fetch('/', {
         method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encoded
       });
 
       if (res.ok) {

@@ -248,10 +248,13 @@
 
           <form
             id="contact-form"
-            action="https://formspree.io/f/YOUR_FORM_ID"
+            name="contact"
             method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
             novalidate
           >
+            <input type="hidden" name="form-name" value="contact">
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Your name <span>*</span></label>
@@ -352,8 +355,8 @@
               </select>
             </div>
 
-            <!-- Honeypot to catch bots -->
-            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <!-- Netlify honeypot -->
+            <p style="display:none"><input name="bot-field"></p>
 
             <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center;">
               Send Message
