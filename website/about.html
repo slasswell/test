@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — [Business Name]</title>
+  <meta name="description" content="A former military officer and enterprise program manager helping small businesses find and build AI agents that actually work. Human-first, process-driven, no hype.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .story-section { padding: var(--space-20) 0; }
+    .story-section + .story-section { border-top: 1px solid var(--border); padding-top: var(--space-16); }
+
+    .pull-quote {
+      border-left: 4px solid var(--amber);
+      padding: var(--space-4) var(--space-6);
+      margin: var(--space-8) 0;
+      background: var(--amber-pale);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .pull-quote p {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-style: italic;
+      color: var(--navy);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .value-list { display: flex; flex-direction: column; gap: var(--space-5); margin-top: var(--space-6); }
+    .value-item {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+    }
+    .value-item__num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: var(--text-base);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .value-item strong { display: block; color: var(--navy); margin-bottom: var(--space-1); }
+    .value-item p { font-size: var(--text-sm); margin: 0; }
+
+    .not-list { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+    .not-item {
+      padding: var(--space-5);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--amber);
+    }
+    .not-item strong { display: block; color: var(--navy); margin-bottom: var(--space-2); font-size: var(--text-base); }
+    .not-item p { font-size: var(--text-sm); margin: 0; }
+
+    @media (max-width: 640px) {
+      .not-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────────── -->
+<header class="nav" role="banner">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">[Business<span>.</span>Name]</a>
+      <nav class="nav__links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="nav__cta">Book a Free Call</a>
+      </nav>
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__mobile" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="nav__cta-mobile">Book a Free Call →</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ── Page Hero ──────────────────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">About</span>
+    <h1>Structured Thinking.<br>Plain Language. Real Results.</h1>
+    <p>
+      A former military officer and senior enterprise program manager —
+      applying the same rigor to small business AI adoption that once went
+      into multimillion-dollar technology programs.
+    </p>
+  </div>
+</section>
+
+<!-- ── Founder Block ───────────────────────────────────────────────── -->
+<section class="story-section">
+  <div class="container">
+    <div class="founder-block">
+      <!-- TODO: Replace with actual headshot -->
+      <div class="founder-photo founder-photo--placeholder" role="img" aria-label="[Founder Name] — photo coming soon"></div>
+
+      <div>
+        <span class="eyebrow">The Founder</span>
+        <h2>[Founder Name]</h2>
+
+        <div class="founder-creds">
+          <div class="cred-tag">
+            <span class="cred-tag__icon">🎖️</span>
+            <div class="cred-tag__text">
+              <strong>Former Military Officer</strong>
+              <span>Leadership under pressure</span>
+            </div>
+          </div>
+          <div class="cred-tag">
+            <span class="cred-tag__icon">🎓</span>
+            <div class="cred-tag__text">
+              <strong>MBA</strong>
+              <span>Business strategy</span>
+            </div>
+          </div>
+          <div class="cred-tag">
+            <span class="cred-tag__icon">📐</span>
+            <div class="cred-tag__text">
+              <strong>M.S. Project Management</strong>
+              <span>Structured delivery</span>
+            </div>
+          </div>
+          <div class="cred-tag">
+            <span class="cred-tag__icon">🏢</span>
+            <div class="cred-tag__text">
+              <strong>Senior Program Manager</strong>
+              <span>Enterprise consulting</span>
+            </div>
+          </div>
+          <div class="cred-tag">
+            <span class="cred-tag__icon">🤖</span>
+            <div class="cred-tag__text">
+              <strong>AI Agent Experience</strong>
+              <span>Copilot Studio · Tines · APIs</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Story ───────────────────────────────────────────────────────── -->
+<section class="story-section section--offwhite">
+  <div class="container">
+    <div class="grid-2" style="gap: 4rem; align-items: start;">
+      <div>
+        <span class="eyebrow">The Story</span>
+        <h2>Why I Started This Business</h2>
+      </div>
+      <div>
+        <p>
+          For most of my career, I worked at the intersection of technology and
+          operations — managing complex programs, designing processes across large
+          organizations, and helping teams absorb significant change without losing
+          momentum. I worked on enterprise-scale projects with dedicated IT teams,
+          governance boards, and budgets that could absorb mistakes.
+        </p>
+
+        <div class="pull-quote">
+          <p>"Then I started talking to small business owners. The contrast was striking."</p>
+        </div>
+
+        <p>
+          Operators running 20-, 50-, 100-person businesses — carrying real
+          complexity, serving real customers — with none of the internal support
+          structure that large organizations take for granted. They were hearing
+          the same AI promises. But they were navigating the landscape alone,
+          with no roadmap, no guide, and tools designed for someone else's budget
+          and someone else's IT team.
+        </p>
+        <p>
+          The gap wasn't technology. AI capabilities have crossed a threshold where
+          genuinely useful automation is accessible to any business willing to invest
+          thoughtfully. The gap was access to someone who would sit down, understand
+          the actual workflow, build the ROI case in plain language, and then
+          execute with discipline.
+        </p>
+        <p>
+          That's the gap I built this business to close.
+        </p>
+        <p>
+          The methodology I use here is the same I applied in enterprise delivery —
+          structured intake, documented requirements, milestone-based execution,
+          and a disciplined handoff. It's not glamorous. But it's the difference
+          between a tool that sticks and a tool that sits in a drawer.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Background ──────────────────────────────────────────────────── -->
+<section class="story-section">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow">Background</span>
+      <h2>Experience That Shows in the Work</h2>
+    </div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <div>
+        <p>
+          My background isn't in AI research or software development. It's in
+          making complex things work in the real world — on time, within scope,
+          with stakeholders who have competing priorities and limited patience
+          for ambiguity.
+        </p>
+        <p>
+          That background turns out to be exactly what AI agent implementation
+          requires. The hardest parts of any agent deployment aren't technical.
+          They're: identifying the right workflow to target, defining the boundary
+          of what the agent should and shouldn't do, integrating it with systems
+          already in use, and getting the team to trust and use it consistently.
+          None of those problems are solved by a software subscription.
+        </p>
+        <p>
+          Direct experience with Microsoft Copilot Studio, Tines, and API-based
+          integrations means I can translate between the technical and the operational —
+          without requiring a developer in the room to move the conversation forward.
+        </p>
+      </div>
+
+      <div>
+        <div class="value-list">
+          <div class="value-item">
+            <div class="value-item__num">PM</div>
+            <div>
+              <strong>Program Management</strong>
+              <p>Structured delivery: SOWs, milestone tracking, change control, stakeholder communication. The same discipline applied to a 12-person business that once governed enterprise programs.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-item__num">🗺️</div>
+            <div>
+              <strong>Process Design &amp; Mapping</strong>
+              <p>Years of workflow analysis across industries. I know how to find where the real friction is — not where people think it is.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-item__num">💬</div>
+            <div>
+              <strong>Executive &amp; Client Communication</strong>
+              <p>Comfortable in a room with leadership and on the floor with operators. Can translate technical concepts without losing either audience.</p>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-item__num">🔄</div>
+            <div>
+              <strong>Change Management</strong>
+              <p>Getting people to actually use a new system requires more than a launch email. I design handoffs and training with adoption in mind from day one.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Values ──────────────────────────────────────────────────────── -->
+<section class="story-section section--offwhite">
+  <div class="container">
+    <div class="grid-2" style="gap: 4rem; align-items: start;">
+      <div>
+        <span class="eyebrow">What I Believe</span>
+        <h2>The Principles Behind Every Engagement</h2>
+        <p>
+          These aren't marketing copy. They're the things I actually live by in
+          the work — shaped by military service, years of client delivery, and
+          a conviction that the best long-term business relationships are built
+          on honesty, not just outcomes.
+        </p>
+      </div>
+
+      <div class="value-list">
+        <div class="value-item">
+          <div class="value-item__num">1</div>
+          <div>
+            <strong>Strategy before tools.</strong>
+            <p>The right question isn't "which AI tool should we use?" It's "which of your workflows, if automated, would create the most real value?" We answer that first.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-item__num">2</div>
+          <div>
+            <strong>Tell the truth, even when it's hard.</strong>
+            <p>If a project is too complex, too risky, or not the right fit for your business right now — you'll hear that from me directly, not in a passive non-answer.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-item__num">3</div>
+          <div>
+            <strong>You should own what we build together.</strong>
+            <p>Every deliverable — the report, the blueprint, the code — belongs to you. I'm not interested in building dependency. I'm interested in building trust.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-item__num">4</div>
+          <div>
+            <strong>Human-first, always.</strong>
+            <p>AI agents work alongside people, not instead of them. Every implementation I design keeps the human operator at the center — capable, informed, and in control.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-item__num">5</div>
+          <div>
+            <strong>Do right by the client.</strong>
+            <p>This is a faith-informed conviction, not just a business principle. If the work I do doesn't genuinely improve your situation, I haven't done my job.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── What We're Not ──────────────────────────────────────────────── -->
+<section class="story-section">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow">Honest Positioning</span>
+      <h2>A Few Things This Business Is Not</h2>
+      <p>Knowing what doesn't fit here helps you make a better decision about whether I'm the right partner.</p>
+    </div>
+
+    <div class="not-list">
+      <div class="not-item">
+        <strong>Not a software vendor.</strong>
+        <p>No product to sell. No licensing fees. No platform I'm financially incentivized to recommend. Tool recommendations are based entirely on what fits your workflow.</p>
+      </div>
+      <div class="not-item">
+        <strong>Not a generalist IT shop.</strong>
+        <p>The focus here is AI agent strategy and implementation. For general IT support, infrastructure management, or helpdesk needs, I'll refer you to someone better suited.</p>
+      </div>
+      <div class="not-item">
+        <strong>Not building for dependency.</strong>
+        <p>Some agencies want to be the only ones who understand what they've built. I build for maintainability and handoff from day one — your team should be able to run this without me.</p>
+      </div>
+      <div class="not-item">
+        <strong>Not the right fit for every business.</strong>
+        <p>If you're a 1,500-person company with a dedicated AI team looking for enterprise-scale infrastructure, there are better-suited firms. I'm built for the businesses they overlook.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ─────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color: var(--amber-light);">Let's Talk</span>
+    <h2>Introduce Yourself</h2>
+    <p>A free 30-minute call is the right next step. You'll get a real sense of whether this is a good fit — and so will I.</p>
+    <div class="btn-group">
+      <a href="contact.html" class="btn btn--primary btn--lg">Book a Free Discovery Call</a>
+      <a href="services.html" class="btn btn--ghost btn--lg">Explore Services First</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">[Business<span>.</span>Name]</a>
+        <p class="footer__tagline">AI agent consulting and implementation for small and mid-sized businesses. No hype. No lock-in. Just results your team can see.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#tier1">AI Readiness Assessment</a></li>
+          <li><a href="services.html#tier2">Agent Blueprint</a></li>
+          <li><a href="services.html#tier3">Agent Build &amp; Deploy</a></li>
+          <li><a href="services.html#tier4">Retainer &amp; Support</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Book a Call</a></li>
+          <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2026 [Business Name]. All rights reserved.</span>
+      <span class="footer__note">Vendor-agnostic. Client-first. No AI hype.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

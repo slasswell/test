@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- TODO: Replace [Business Name] with chosen name throughout all pages -->
+  <title>[Business Name] — AI Agent Consulting for Small Business</title>
+  <meta name="description" content="We help small and mid-sized businesses find their best AI opportunities and build agents that actually work. Start with a free 30-minute discovery call.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Form status styles (shared across pages) */
+    .form-status { display: none; padding: 12px 16px; border-radius: 6px; font-size: .9rem; margin-top: 12px; }
+    .form-status--success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .form-status--error   { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────────── -->
+<header class="nav" role="banner">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">[Business<span>.</span>Name]</a>
+
+      <nav class="nav__links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="nav__cta">Book a Free Call</a>
+      </nav>
+
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav__mobile" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="nav__cta-mobile">Book a Free Call →</a>
+  </div>
+</header>
+
+<!-- ── Hero ───────────────────────────────────────────────────────── -->
+<main>
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <span class="eyebrow">AI Agent Consulting for SMBs</span>
+      <h1>You Know AI Can Help.<br><em>We'll Show You Exactly How.</em></h1>
+      <p class="hero__sub">
+        We map your workflows, identify your highest-value opportunities, and build
+        the AI agents that capture them — no jargon, no guesswork, and no lock-in.
+      </p>
+      <div class="btn-group">
+        <a href="contact.html" class="btn btn--primary btn--lg">Book a Free 30-Min Call</a>
+        <a href="how-it-works.html" class="btn btn--secondary btn--lg">See How It Works</a>
+      </div>
+      <div class="hero__trust">
+        <strong>Serving SMBs in:</strong> Professional Services · Healthcare Admin ·
+        Construction &amp; Trades · Retail · Real Estate
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Problem ─────────────────────────────────────────────────────── -->
+<section class="section section--offwhite">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow">The Problem</span>
+      <h2>Most Small Businesses Are Stuck in the Same Place</h2>
+      <p>
+        You've heard the AI promises. You may have even tried a tool or two.
+        But turning "AI could help us" into something that actually runs —
+        without breaking your workflows or confusing your team — is a different challenge.
+      </p>
+    </div>
+
+    <div class="problem-list">
+      <div class="problem-item">
+        <div class="problem-item__icon">🗺️</div>
+        <div class="problem-item__text">
+          <strong>No clear starting point</strong>
+          <p>You know AI is relevant, but your business has dozens of workflows. Which ones are worth automating?</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-item__icon">🔧</div>
+        <div class="problem-item__text">
+          <strong>Too many tools, no guidance</strong>
+          <p>The automation landscape is loud and fragmented. Every platform claims to be the right one.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-item__icon">📊</div>
+        <div class="problem-item__text">
+          <strong>No IT team to figure it out</strong>
+          <p>Your team runs lean. Nobody has the bandwidth to research, pilot, and implement new technology.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-item__icon">⚠️</div>
+        <div class="problem-item__text">
+          <strong>Fear of disrupting what works</strong>
+          <p>Your operations function — imperfectly, but they function. The risk of breaking something real outweighs the upside of something theoretical.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-item__icon">💰</div>
+        <div class="problem-item__text">
+          <strong>Unclear ROI</strong>
+          <p>You need to justify the spend. Without a clear picture of what you'll get back, it's easier to wait.</p>
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-item__icon">😤</div>
+        <div class="problem-item__text">
+          <strong>Previous tools that didn't stick</strong>
+          <p>You've been burned before — software that was oversold and underimplemented. Your default is skepticism.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Bridge ──────────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="align-items:center; gap: 5rem;">
+      <div>
+        <span class="eyebrow">The Solution</span>
+        <h2>A Trusted Guide — Not Another Tool to Buy</h2>
+        <p>
+          Most AI confusion isn't a technology problem. It's a strategy problem.
+          You need someone who understands your operations, asks the right questions,
+          and can translate "AI agent" into plain language about time saved,
+          errors reduced, and capacity freed up.
+        </p>
+        <p>
+          That's what we do. We start by finding where AI actually fits your business —
+          then we build it, deploy it, and make sure your team can use it confidently.
+        </p>
+        <div class="btn-group mt-8">
+          <a href="how-it-works.html" class="btn btn--primary">See the Process →</a>
+        </div>
+      </div>
+      <div class="value-props" style="grid-template-columns:1fr; gap: 1.25rem;">
+        <div class="problem-item">
+          <div class="problem-item__icon">✅</div>
+          <div class="problem-item__text">
+            <strong>Methodology before tools</strong>
+            <p>We map your workflows first. The right tool recommendation comes from understanding — not from having a vendor relationship.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item__icon">💬</div>
+          <div class="problem-item__text">
+            <strong>Plain language, always</strong>
+            <p>No jargon, no tech-speak. We explain what we're doing and why in terms that make sense for your business.</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-item__icon">📁</div>
+          <div class="problem-item__text">
+            <strong>You own everything we build</strong>
+            <p>Code, documentation, diagrams — it all transfers to you at handoff. No dependency. No ongoing fees just to keep the lights on.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Services Overview ───────────────────────────────────────────── -->
+<section class="section section--offwhite">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow">Services</span>
+      <h2>Four Ways to Work Together</h2>
+      <p>Most clients start with an Assessment. Each tier earns the next — not through pressure, but through results.</p>
+    </div>
+
+    <div class="grid-4">
+      <div class="tier-card tier-card--featured">
+        <div class="tier-card__num">Tier 1</div>
+        <h3 class="tier-card__title">AI Readiness Assessment</h3>
+        <p class="tier-card__tagline">"Find it before you build it"</p>
+        <div class="tier-card__price">$2,500–$5,000 <span>fixed fee</span></div>
+        <div class="tier-card__duration">⏱ 1–2 weeks</div>
+        <p class="tier-card__desc">Map your workflows, score your opportunities, get a prioritized AI roadmap — before spending anything on implementation.</p>
+        <a href="services.html#tier1" class="btn btn--secondary btn--sm">Learn More</a>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-card__num">Tier 2</div>
+        <h3 class="tier-card__title">Agent Blueprint</h3>
+        <p class="tier-card__tagline">"Plan it before you build it"</p>
+        <div class="tier-card__price">$5,000–$12,000 <span>fixed fee</span></div>
+        <div class="tier-card__duration">⏱ 2–4 weeks</div>
+        <p class="tier-card__desc">A complete implementation plan: tool selection, integration map, build timeline, and ROI model — before a single line of code is written.</p>
+        <a href="services.html#tier2" class="btn btn--secondary btn--sm">Learn More</a>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-card__num">Tier 3</div>
+        <h3 class="tier-card__title">Agent Build &amp; Deploy</h3>
+        <p class="tier-card__tagline">"We build it, you run it"</p>
+        <div class="tier-card__price">$10,000–$40,000+ <span>scoped per project</span></div>
+        <div class="tier-card__duration">⏱ 4–12 weeks</div>
+        <p class="tier-card__desc">Full design, build, testing, and deployment. You get a working agent, integrated with your tools, documented, and your team trained.</p>
+        <a href="services.html#tier3" class="btn btn--secondary btn--sm">Learn More</a>
+      </div>
+
+      <div class="tier-card">
+        <div class="tier-card__num">Tier 4</div>
+        <h3 class="tier-card__title">Retainer &amp; Support</h3>
+        <p class="tier-card__tagline">"Keep it running and improving"</p>
+        <div class="tier-card__price">$1,500–$4,000 <span>/month</span></div>
+        <div class="tier-card__duration">⏱ Month-to-month</div>
+        <p class="tier-card__desc">Ongoing monitoring, optimization, and continued discovery. Agents need maintenance — and new opportunities keep emerging as your business grows.</p>
+        <a href="services.html#tier4" class="btn btn--secondary btn--sm">Learn More</a>
+      </div>
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="services.html" class="btn btn--primary">View Full Service Details &amp; Pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── How It Works Preview ────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="align-items:start; gap: 5rem;">
+      <div>
+        <span class="eyebrow">The Process</span>
+        <h2>From "Where Do We Start?" to a Running Agent</h2>
+        <p>
+          Every engagement follows the same disciplined arc. We don't guess.
+          We don't skip steps. And we don't hand you a tool and disappear.
+        </p>
+        <p>
+          The process is adapted from enterprise program management methodology —
+          the same structured approach used to make six-figure technology decisions
+          in large organizations, calibrated for how SMBs actually operate.
+        </p>
+        <a href="how-it-works.html" class="btn btn--primary mt-6">See the Full Process →</a>
+      </div>
+      <div>
+        <div class="steps">
+          <div class="step">
+            <div class="step__num">1</div>
+            <div class="step__content">
+              <div class="step__label">Tier 1 — 1–2 Weeks</div>
+              <h4 class="step__title">Assess</h4>
+              <p>We map your workflows, score your opportunities, and deliver a prioritized roadmap before you spend anything on building.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step__num">2</div>
+            <div class="step__content">
+              <div class="step__label">Tier 2 — 2–4 Weeks</div>
+              <h4 class="step__title">Blueprint</h4>
+              <p>We turn your top opportunities into a detailed build plan: tools, integrations, timeline, and ROI — before any code is written.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step__num">3</div>
+            <div class="step__content">
+              <div class="step__label">Tier 3 — 4–12 Weeks</div>
+              <h4 class="step__title">Build &amp; Deploy</h4>
+              <p>We design, build, test, and deploy. Your team gets trained and handed the keys — with 30 days of post-launch support.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step__num">4</div>
+            <div class="step__content">
+              <div class="step__label">Tier 4 — Ongoing</div>
+              <h4 class="step__title">Support &amp; Evolve</h4>
+              <p>Optional monthly retainer for monitoring, optimization, and finding the next opportunity as your business grows.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About Teaser ────────────────────────────────────────────────── -->
+<section class="section section--amber">
+  <div class="container">
+    <div class="grid-2" style="align-items:center; gap: 4rem;">
+      <div class="founder-photo founder-photo--placeholder">
+        <!-- TODO: Replace with actual headshot <img src="..." alt="[Founder Name]"> -->
+      </div>
+      <div>
+        <span class="eyebrow">About the Founder</span>
+        <h2>Enterprise Rigor.<br>SMB Fluency.</h2>
+        <p>
+          A former military officer with an MBA, a Master's in Project Management,
+          and years of senior program management experience in enterprise consulting —
+          applying that same disciplined, client-first methodology to the businesses
+          that need it most.
+        </p>
+        <p>
+          This isn't a software product with a support ticket system. It's a professional
+          services relationship with a person who picks up the phone, follows through
+          on commitments, and tells you the truth — even when it's not what you want to hear.
+        </p>
+        <a href="about.html" class="btn btn--secondary mt-6">Read the Full Story →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Social Proof ───────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow">Client Results</span>
+      <h2>What Working Together Looks Like</h2>
+      <!-- TODO: Replace placeholders below with real testimonials once earned -->
+    </div>
+
+    <div class="grid-3">
+      <div class="testimonial">
+        <p class="testimonial__quote">
+          "We knew AI could help us but had no idea where to start. The Assessment
+          gave us a clear picture in two weeks — and the agent they built has saved
+          our team 8 hours a week."
+        </p>
+        <div class="testimonial__attr">
+          [Client Name] — <em>Placeholder</em>
+          <span>[Title], [Company — Professional Services]</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial__quote">
+          "The discovery process surfaced an opportunity we hadn't even considered.
+          Implementation was smooth, well-documented, and the team actually uses it
+          every day."
+        </p>
+        <div class="testimonial__attr">
+          [Client Name] — <em>Placeholder</em>
+          <span>[Title], [Company — Healthcare Admin]</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial__quote">
+          "I've worked with consultants who disappear after the report. This was
+          different — we had clear milestones, regular check-ins, and the deliverables
+          were exactly what was promised."
+        </p>
+        <div class="testimonial__attr">
+          [Client Name] — <em>Placeholder</em>
+          <span>[Title], [Company — Construction]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ─────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color: var(--amber-light);">Get Started</span>
+    <h2>Ready to Find Out What AI Can Do for Your Business?</h2>
+    <p>Start with a free 30-minute conversation. No pitch deck, no pressure — just a real look at where you are and whether this is the right fit.</p>
+    <div class="btn-group">
+      <a href="contact.html" class="btn btn--primary btn--lg">Book a Free Discovery Call</a>
+      <a href="services.html" class="btn btn--ghost btn--lg">Explore Services First</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">[Business<span>.</span>Name]</a>
+        <p class="footer__tagline">
+          AI agent consulting and implementation for small and mid-sized businesses.
+          No hype. No lock-in. Just results your team can see.
+        </p>
+      </div>
+      <div class="footer__col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="services.html#tier1">AI Readiness Assessment</a></li>
+          <li><a href="services.html#tier2">Agent Blueprint</a></li>
+          <li><a href="services.html#tier3">Agent Build &amp; Deploy</a></li>
+          <li><a href="services.html#tier4">Retainer &amp; Support</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="how-it-works.html">How It Works</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Book a Call</a></li>
+          <!-- TODO: Add LinkedIn URL -->
+          <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2026 [Business Name]. All rights reserved.</span>
+      <span class="footer__note">Vendor-agnostic. Client-first. No AI hype.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

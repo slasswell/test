@@ -1,203 +1,252 @@
-# AI Agent Opportunity Assessment (AAOA)
+# AI Agent Opportunity Report
 
-**Client:** [Client Name]  
-**Industry:** [Industry]  
-**Date:** [Date]  
-**Prepared by:** [Consultant Name]  
-**Engagement Scope:** [Focused / Standard / Comprehensive]  
-**Assessment Version:** 1.0
+**Tier 1 Deliverable — Confidential**
 
 ---
 
-## Confidentiality Notice
+| Field | Value |
+|-------|-------|
+| **Client** | [Client Name] |
+| **Industry** | [Industry] |
+| **Business Size** | [X employees] |
+| **Date** | [Delivery Date] |
+| **Prepared by** | [Founder Name], [Business Name] |
+| **Engagement Scope** | [Focused / Standard / Comprehensive] |
+| **Workflows Assessed** | [Number] |
+| **Report Version** | 1.0 |
 
-This document is prepared exclusively for [Client Name] and contains proprietary analysis of internal operations. It should not be distributed outside the organization without prior written consent.
+*This document is prepared exclusively for [Client Name]. It contains proprietary
+analysis of internal operations and should not be distributed outside the organization
+without prior written consent.*
 
 ---
 
 ## 1. Executive Summary
 
-### Business Context
+### What This Engagement Found
 
-[2–3 sentences describing the client's business, primary revenue model, team size, and operating environment. Written for a senior leader who may not have been in the discovery sessions.]
+[2–3 sentences describing the overall picture: how the business operates, what the
+discovery sessions surfaced, and the general level of AI readiness observed.]
 
-**Example:** Acme Logistics is a 45-person freight brokerage managing 300+ shipments per week across three regional markets. The business operates on razor-thin margins, with competitive differentiation coming from speed of quote, carrier relationships, and customer responsiveness. Leadership is actively looking to automate repetitive coordination tasks to free up broker capacity for higher-value work.
+**Example:** After three discovery sessions with the [Client Name] operations and client
+services teams, we mapped seven core workflows and identified five candidate AI agent
+opportunities. The business has strong data infrastructure and a team open to change —
+conditions that make implementation faster and more reliable than average. Three
+opportunities are recommended for prioritized investment, with one clear first move.
 
 ### Key Findings
 
-[3–5 bullet points summarizing the most important discoveries from the workflow sessions.]
+- **Finding 1:** [Description — e.g., "Manual data re-entry between [System A] and [System B] consumes an estimated 12 hours/week across the ops team"]
+- **Finding 2:** [Description]
+- **Finding 3:** [Description]
+- **Finding 4:** [Description]
 
-- **[Finding 1]:** [Description]
-- **[Finding 2]:** [Description]
-- **[Finding 3]:** [Description]
+### Top Recommended Opportunities
 
-### Top Recommendations
+| Priority | Opportunity | Complexity | Est. Annual Value |
+|----------|-------------|------------|-------------------|
+| 1 | [Opportunity Name A] | Low–Medium | $[X]K–$[Y]K |
+| 2 | [Opportunity Name B] | Medium | $[X]K–$[Y]K |
+| 3 | [Opportunity Name C] | Medium–High | $[X]K–$[Y]K |
 
-The following opportunities are recommended for prioritized investment, ranked by a combination of ROI potential and implementation feasibility:
+### Recommended Immediate Next Step
 
-| Rank | Opportunity | Est. Effort | Est. Annual Value |
-|------|-------------|-------------|-------------------|
-| 1 | [Opportunity Name] | [Low/Med/High] | $[X]K–$[Y]K |
-| 2 | [Opportunity Name] | [Low/Med/High] | $[X]K–$[Y]K |
-| 3 | [Opportunity Name] | [Low/Med/High] | $[X]K–$[Y]K |
-
-### Recommended Next Step
-
-[One clear recommended action — typically: "Begin implementation of Opportunity #1 with a target launch of [timeframe]."]
+[One specific action. Example: "Begin a Tier 2 Agent Blueprint for Opportunity #1.
+Target build start: Q3 2026. Prerequisite: confirm API access to [System A]."]
 
 ---
 
-## 2. Discovery Methodology
+## 2. Current State Snapshot
 
-### Sessions Conducted
+*A brief picture of where the business stands today, based on what was shared in
+the discovery sessions. Not exhaustive — focused on what's relevant to AI agent adoption.*
 
-| Session | Participants | Topics Covered | Date |
-|---------|-------------|----------------|------|
-| Kickoff & Alignment | [Names/roles] | Business priorities, pain points, scope definition | [Date] |
-| Workflow Deep-Dive 1 | [Names/roles] | [Department/workflow covered] | [Date] |
-| Workflow Deep-Dive 2 | [Names/roles] | [Department/workflow covered] | [Date] |
-| Workflow Deep-Dive 3 | [Names/roles] | [Department/workflow covered] | [Date] |
+### Operations Overview
 
-### Frameworks Applied
-- **Process Mapping:** Each workflow was mapped using a swim-lane format capturing actors, handoffs, tools, decision points, and failure modes.
-- **Opportunity Scoring:** Each candidate opportunity was scored on four dimensions (see Section 4).
-- **ROI Estimation:** Potential value was estimated using a combination of time savings, error reduction, and opportunity cost analysis.
+| Area | Current State |
+|------|--------------|
+| Team size | [X] employees |
+| Primary workflows | [Brief list] |
+| Primary tools | [List] |
+| Data infrastructure | [Structured / Partially structured / Scattered] |
+| Tool integration | [Mostly automated / Mixed / Mostly manual] |
+| Prior AI/automation | [None / Informal / Some tools in use] |
+| Internal technical capacity | [Self-managed / Vendor-dependent / None] |
 
----
+### Workflow Summary
 
-## 3. Current State: Workflow Maps
+Brief description of the 3–8 workflows covered in the assessment:
 
-*For each workflow covered in the engagement, document the current state below.*
+| Workflow | Owner | Volume/Frequency | Current Pain Level |
+|----------|-------|-----------------|-------------------|
+| [Workflow A] | [Dept/Role] | [X/week] | High / Medium / Low |
+| [Workflow B] | [Dept/Role] | [X/week] | High / Medium / Low |
+| [Workflow C] | [Dept/Role] | [X/week] | High / Medium / Low |
+| [Workflow D] | [Dept/Role] | [X/week] | High / Medium / Low |
+| [Workflow E] | [Dept/Role] | [X/week] | High / Medium / Low |
 
----
+### Identified Pain Points (Summary)
 
-### Workflow A: [Workflow Name]
-
-**Owner Department:** [Department]  
-**Primary Actors:** [Roles involved]  
-**Frequency:** [Daily / Weekly / Monthly / Per-event]  
-**Volume:** [X transactions/queries/tasks per week]  
-**Tools Currently Used:** [List of tools]
-
-#### Step-by-Step Flow
-
-| Step | Actor | Action | Tool | Time Spent | Pain Points |
-|------|-------|--------|------|-----------|-------------|
-| 1 | [Role] | [Action description] | [Tool] | [X min] | [Pain point or blank] |
-| 2 | [Role] | [Action description] | [Tool] | [X min] | [Pain point or blank] |
-| 3 | [Role] | [Action description] | [Tool] | [X min] | [Pain point or blank] |
-| 4 | [Role] | [Action description] | [Tool] | [X min] | [Pain point or blank] |
-| 5 | [Role] | [Action description] | [Tool] | [X min] | [Pain point or blank] |
-
-**Total cycle time (current):** [X hours/minutes]  
-**Error/rework rate:** [X%] — [Brief description of common failures]  
-**Manual touchpoints:** [X steps that are entirely manual]
-
-#### Key Pain Points Identified
-- [Pain point 1: description and impact]
-- [Pain point 2: description and impact]
-- [Pain point 3: description and impact]
+- **[Pain Point 1]:** [Description and operational impact]
+- **[Pain Point 2]:** [Description and operational impact]
+- **[Pain Point 3]:** [Description and operational impact]
+- **[Pain Point 4]:** [Description and operational impact]
 
 ---
 
-### Workflow B: [Workflow Name]
+## 3. Opportunity Scoring Methodology
 
-*(Repeat structure above)*
+Each candidate opportunity is evaluated on four dimensions, scored 1–5:
 
----
-
-### Workflow C: [Workflow Name]
-
-*(Repeat structure above)*
-
----
-
-## 4. Opportunity Identification & Scoring
-
-### Scoring Methodology
-
-Each candidate opportunity is evaluated on four dimensions, each scored 1–5:
-
-| Dimension | 1 (Low) | 3 (Medium) | 5 (High) |
-|-----------|---------|-----------|---------|
-| **ROI Potential** | Minimal time/cost saved | Moderate savings | Significant labor or revenue impact |
+| Dimension | Score 1 | Score 3 | Score 5 |
+|-----------|---------|---------|---------|
+| **ROI Potential** | Minimal time or cost saved | Moderate savings | Significant labor or revenue impact |
 | **Implementation Feasibility** | Technically complex, many unknowns | Moderate complexity | Well-understood problem, clear solution |
-| **Data Readiness** | Data scattered/unstructured/missing | Partially accessible | Data clean, accessible, structured |
+| **Data Readiness** | Data scattered / missing / unstructured | Partially accessible | Data clean, accessible, structured |
 | **Strategic Fit** | Nice-to-have, peripheral | Supports a key goal | Directly tied to a core business priority |
 
-**Composite Score** = Average of all four dimensions. Opportunities scoring 3.5+ are recommended.
+**Composite Score** = Average of all four dimensions.
+
+| Score | Recommendation |
+|-------|---------------|
+| 4.0–5.0 | **Prioritize** — high confidence, clear ROI |
+| 3.0–3.9 | **Consider** — solid case, address dependencies first |
+| 2.0–2.9 | **Defer** — revisit after higher-priority items are complete |
+| < 2.0   | **Decline** — not appropriate for AI agent approach |
 
 ---
 
-### Opportunity Scorecard
+## 4. Opportunity Scorecard
 
-| Opportunity | ROI Potential | Feasibility | Data Readiness | Strategic Fit | **Composite** | Recommendation |
-|-------------|--------------|-------------|----------------|--------------|--------------|----------------|
-| [Opp. Name A] | 5 | 4 | 4 | 5 | **4.5** | Prioritize |
-| [Opp. Name B] | 4 | 4 | 3 | 4 | **3.75** | Prioritize |
-| [Opp. Name C] | 3 | 3 | 4 | 4 | **3.5** | Consider |
-| [Opp. Name D] | 4 | 2 | 2 | 3 | **2.75** | Defer |
-| [Opp. Name E] | 2 | 4 | 4 | 2 | **3.0** | Deprioritize |
+| # | Opportunity | ROI Potential | Feasibility | Data Readiness | Strategic Fit | **Composite** | Recommendation |
+|---|-------------|:---:|:---:|:---:|:---:|:---:|---|
+| 1 | [Name A] | 5 | 4 | 4 | 5 | **4.5** | Prioritize |
+| 2 | [Name B] | 4 | 4 | 4 | 4 | **4.0** | Prioritize |
+| 3 | [Name C] | 4 | 3 | 4 | 4 | **3.75** | Prioritize |
+| 4 | [Name D] | 4 | 3 | 2 | 3 | **3.0** | Consider |
+| 5 | [Name E] | 3 | 2 | 2 | 3 | **2.5** | Defer |
 
 ---
 
 ## 5. Prioritized Opportunity Profiles
 
-*One profile per recommended opportunity.*
-
 ---
 
-### Opportunity #1: [Opportunity Name]
+### Opportunity #1: [Opportunity Name A]
 
 **Composite Score:** [X.X] / 5.0  
-**Target Workflow:** [Workflow A, B, or C from Section 3]  
-**Current Pain:** [1–2 sentence description of the problem this addresses]
+**Complexity Rating:** Low / Medium / High  
+**Recommended Platform / Tooling:** [e.g., Claude API + n8n / Make / Zapier / Copilot Studio / Custom Python]
+
+#### The Problem
+
+[2–3 sentences describing the specific pain this addresses. What is happening now? Who is doing it? How often? What goes wrong?]
+
+**Example:** The sales team manually transfers qualified lead data from the web inquiry
+form into HubSpot CRM — a 15-step process that takes 8–12 minutes per lead, runs 40+
+times a week, and results in an ~18% data entry error rate that must be manually corrected.
 
 #### What the Agent Would Do
-[3–5 bullet points describing the agent's behavior in plain language. No jargon.]
 
-- **Trigger:** [What event kicks off the agent — an email received, a form submitted, a time condition, etc.]
-- **Action 1:** [What it does first]
-- **Action 2:** [What it does next]
-- **Action 3:** [What it produces or sends]
-- **Human handoff point:** [Where does a human need to review, approve, or intervene?]
+Describe the agent's behavior in plain, non-technical language:
 
-#### Tools & Integrations Required
-| System | Role in Agent | Current Access |
-|--------|--------------|----------------|
-| [Tool name] | [What the agent reads/writes/triggers] | [Yes / Needs setup] |
-| [Tool name] | [What the agent reads/writes/triggers] | [Yes / Needs setup] |
+- **Trigger:** [What event starts the agent — e.g., new form submission received, email arrives with specific subject, daily schedule at 8am]
+- **Step 1:** [What it does — e.g., reads the form data and normalizes fields]
+- **Step 2:** [e.g., checks HubSpot for a duplicate contact]
+- **Step 3:** [e.g., creates or updates the CRM record with enriched data]
+- **Step 4:** [e.g., sends a Slack notification to the assigned sales rep]
+- **Human handoff:** [Where a human reviews, approves, or acts — e.g., "Rep reviews the enriched contact before sending first outreach"]
+
+#### Systems and Integrations Required
+
+| System | What the Agent Does With It | Access Status |
+|--------|----------------------------|--------------|
+| [System A] | [Reads / Writes / Triggers] | Available / Needs setup |
+| [System B] | [Reads / Writes / Triggers] | Available / Needs setup |
 
 #### Estimated Value
-| Metric | Current State | With Agent | Annual Impact |
-|--------|--------------|-----------|---------------|
-| Time per task | [X min] | [Y min] | [Z hours saved/year] |
-| Volume | [N tasks/week] | [N tasks/week] | — |
-| Error rate | [X%] | [~0%] | [Cost of rework avoided] |
+
+| Metric | Current | With Agent | Annual Impact |
+|--------|---------|-----------|---------------|
+| Time per task | [X min] | [Y min] | [Z hrs/year saved] |
+| Volume | [N tasks/week] | — | — |
+| Error rate | [X%] | ~0% | [Cost of rework avoided/year] |
 | Staff capacity freed | — | [X hrs/week] | [$X in labor redirected] |
 | **Total estimated annual value** | | | **$[X]K–$[Y]K** |
 
-#### Implementation Approach
-- **Recommended platform(s):** [e.g., Claude API + n8n, Zapier, custom Python]
-- **Estimated build effort:** [Low: 2–4 wks / Medium: 4–8 wks / High: 8–16 wks]
-- **Estimated implementation cost:** [$X,000–$Y,000]
-- **Key risks:** [List 1–2 risks and mitigations]
-- **Dependencies:** [Any prerequisite work — data cleanup, API access, internal process change]
+*Note: Estimates use [Client Name]'s own figures from discovery sessions — not industry
+benchmarks. They should be treated as directional, not audited.*
+
+#### Recommended Platform and Tooling
+
+**Primary recommendation:** [e.g., n8n (self-hosted) + Claude API]  
+**Rationale:** [1–2 sentences on why this stack fits — cost, integration capability, maintainability, client's existing tools]
+
+**Alternative considered:** [e.g., Zapier]  
+**Why not chosen:** [e.g., Zapier's per-task pricing would exceed $X/month at this volume; n8n's one-time setup cost is more economical at scale]
+
+#### Implementation Estimate
+
+| Item | Estimate |
+|------|---------|
+| Build effort | [Low: 2–4 wks / Medium: 4–8 wks / High: 8–16 wks] |
+| Estimated cost | [$X,000–$Y,000] |
+| Key dependencies | [e.g., API credentials for [System A], data cleanup in [System B]] |
+| Key risks | [e.g., [System A] API rate limits may require a queuing layer] |
+| Mitigation | [e.g., Test at low volume first; monitor API usage in week 1] |
 
 #### Success Metrics (KPIs)
-- [KPI 1 — e.g., Average time-to-quote reduced from X min to Y min]
-- [KPI 2 — e.g., Rework rate reduced from X% to <Y%]
-- [KPI 3 — e.g., X hours/week of staff time redeployed]
+
+- [KPI 1 — e.g., Data entry time per lead reduced from 10 min to <1 min]
+- [KPI 2 — e.g., CRM data error rate reduced from 18% to <2%]
+- [KPI 3 — e.g., X hours/week of sales team time redeployed to calls]
 
 ---
 
-### Opportunity #2: [Opportunity Name]
+### Opportunity #2: [Opportunity Name B]
 
-*(Repeat structure above)*
+*(Repeat the structure above for each of the top 3–5 opportunities.)*
+
+**Composite Score:** [X.X] / 5.0  
+**Complexity Rating:** Low / Medium / High  
+**Recommended Platform / Tooling:** [Platform]
+
+#### The Problem
+[Description]
+
+#### What the Agent Would Do
+- **Trigger:** [Description]
+- **Step 1:** [Description]
+- **Step 2:** [Description]
+- **Human handoff:** [Description]
+
+#### Systems and Integrations Required
+| System | Role | Access Status |
+|--------|------|--------------|
+| [System] | [Role] | [Status] |
+
+#### Estimated Value
+| Metric | Current | With Agent | Annual Impact |
+|--------|---------|-----------|---------------|
+| Time per task | — | — | — |
+| Error rate | — | — | — |
+| **Est. annual value** | | | **$[X]K–$[Y]K** |
+
+#### Recommended Platform and Tooling
+**Primary:** [Platform] — [1-sentence rationale]
+
+#### Implementation Estimate
+| Build effort | Estimated cost | Key dependency |
+|---|---|---|
+| [Timeline] | $[X]K–$[Y]K | [Dependency] |
+
+#### Success Metrics
+- [KPI 1]
+- [KPI 2]
 
 ---
 
-### Opportunity #3: [Opportunity Name]
+### Opportunity #3: [Opportunity Name C]
 
 *(Repeat structure above)*
 
@@ -205,96 +254,108 @@ Each candidate opportunity is evaluated on four dimensions, each scored 1–5:
 
 ## 6. Deferred Opportunities
 
-The following opportunities were identified but are not recommended for immediate investment. They are documented here for future reference.
+These opportunities were identified but are not recommended for current investment.
 
-| Opportunity | Reason Deferred | Revisit Condition |
-|-------------|----------------|-------------------|
-| [Opp. Name D] | Low data readiness — requires CRM cleanup first | After CRM migration in Q3 |
-| [Opp. Name E] | Low strategic priority relative to other items | After top 3 are launched |
+| Opportunity | Composite Score | Reason Deferred | Revisit Condition |
+|-------------|:---:|----------------|-------------------|
+| [Name D] | 3.0 | Low data readiness — source data in inconsistent formats | After CRM data cleanup project completes |
+| [Name E] | 2.5 | Low feasibility — workflow depends on a legacy system with no API | After system replacement (planned Q4) |
 
 ---
 
-## 7. Implementation Roadmap
+## 7. Recommended Next Steps
 
-### Recommended Phasing
+### Implementation Sequence
 
 ```
-Phase 1 (Months 1–2): [Opportunity #1 Name]
-  └── Milestone 1: Requirements & design complete
-  └── Milestone 2: Agent built and tested
-  └── Milestone 3: Deployed and team trained
+Phase 1 (Recommended Start): [Opportunity #1 Name]
+  Timeline: [Start date] → [Target launch date]
+  └── Prerequisites: [List 1–2 prerequisites]
+  └── Milestones: Blueprint → Build → UAT → Launch
 
-Phase 2 (Months 3–4): [Opportunity #2 Name]
-  └── Milestone 1: Requirements & design complete
-  └── Milestone 2: Agent built and tested
-  └── Milestone 3: Deployed and team trained
+Phase 2: [Opportunity #2 Name]
+  Timeline: Begin after Phase 1 launch (or in parallel if capacity allows)
+  └── Prerequisites: [Dependencies]
 
-Phase 3 (Months 5–6): [Opportunity #3 Name]
-  └── [Conditionally: resolve [dependency] before starting]
+Phase 3: [Opportunity #3 Name]
+  Timeline: After Phase 2
+  └── Note: [Any conditional factors]
 ```
 
-### Prerequisites Before Implementation Begins
-- [ ] [Prerequisite 1 — e.g., API access to [System] granted]
-- [ ] [Prerequisite 2 — e.g., Point of contact designated for UAT]
-- [ ] [Prerequisite 3 — e.g., Data export from [legacy system] completed]
+### Immediate Actions (Client)
+
+| Action | Owner | By When |
+|--------|-------|---------|
+| Review this report with leadership team | [Client] | [Date] |
+| Confirm Opportunity #1 as priority | [Client] | [Date] |
+| Confirm API access to [System A] | [Client IT / vendor] | [Date] |
+| Schedule Blueprint kickoff | [Client + Consultant] | [Date] |
+
+### Suggested Next Engagement
+
+A **Tier 2 Agent Blueprint** for Opportunity #1 would take approximately 2–3 weeks and produce a complete implementation plan, tool selection, integration map, and ROI model — ready for a build decision.
+
+**Estimated Blueprint cost:** $[X]K–$[Y]K  
+**Assessment fee credit:** The $[X] paid for this Assessment is credited toward the Blueprint if started within 90 days.
 
 ---
 
 ## 8. AI Readiness Summary
 
-### Organizational Readiness
+| Factor | Rating | Notes |
+|--------|--------|-------|
+| Leadership buy-in | Strong / Moderate / Weak | [Brief note] |
+| Staff openness to change | Strong / Moderate / Resistant | [Brief note] |
+| Data infrastructure | Strong / Moderate / Weak | [Brief note] |
+| Tool integration maturity | Strong / Moderate / Weak | [Brief note] |
+| Internal technical support | Self-sufficient / Vendor-dependent / None | [Brief note] |
+| **Overall readiness** | **High / Medium / Early-stage** | [Summary sentence] |
 
-| Factor | Assessment | Notes |
-|--------|-----------|-------|
-| Leadership buy-in | [Strong / Moderate / Weak] | [Brief note] |
-| Staff openness to AI tools | [Strong / Moderate / Resistant] | [Brief note] |
-| Data infrastructure | [Strong / Moderate / Weak] | [Brief note] |
-| Process documentation | [Exists / Partial / None] | [Brief note] |
-| IT/systems access | [Self-managed / Vendor-dependent / Restricted] | [Brief note] |
+### Change Management Considerations
 
-### Recommended Change Management Steps
-- [Change management action 1]
-- [Change management action 2]
-- [Change management action 3]
-
----
-
-## 9. Next Steps
-
-| Action | Owner | Target Date |
-|--------|-------|-------------|
-| Review this AAOA with leadership team | [Client] | [Date] |
-| Confirm priority of Opportunity #1 | [Client + Consultant] | [Date] |
-| Schedule implementation scoping call | [Client + Consultant] | [Date] |
-| [Prerequisite action from Section 7] | [Client] | [Date] |
+- [Consideration 1 — e.g., "The ops team expressed concern about job security; a brief communication from leadership framing agents as capacity extenders — not replacements — would ease adoption"]
+- [Consideration 2]
+- [Consideration 3]
 
 ---
 
-## Appendix A: Discovery Session Notes
+## Appendix: Discovery Session Notes
 
-*Summarized notes from each session, retained for reference.*
+Brief summaries from each session for reference.
 
-### Session 1 — [Date]
-[Notes]
+### Session 1 — [Date] — [Participants]
+**Topics covered:** [Overview]  
+**Key takeaways:**
+- [Note]
+- [Note]
 
-### Session 2 — [Date]
-[Notes]
+### Session 2 — [Date] — [Participants]
+**Topics covered:** [Overview]  
+**Key takeaways:**
+- [Note]
+- [Note]
 
-### Session 3 — [Date]
-[Notes]
-
----
-
-## Appendix B: Glossary
-
-| Term | Definition |
-|------|-----------|
-| AI Agent | An autonomous software system that perceives inputs, reasons about them, and takes actions — often using a large language model as its reasoning engine |
-| Orchestration | Coordinating multiple agents or tools to complete a multi-step workflow |
-| Integration | Connecting the agent to an existing system (CRM, email, database, etc.) via API or automation tool |
-| UAT | User Acceptance Testing — the client-side testing phase before go-live |
-| Hypercare | A post-launch period of heightened support while the team adapts to the new agent |
+### Session 3 — [Date] — [Participants]
+**Topics covered:** [Overview]  
+**Key takeaways:**
+- [Note]
+- [Note]
 
 ---
 
-*Document prepared by [Consultant Name] | [Business Name] | [Email] | [Website]*
+## Glossary
+
+| Term | Plain-Language Definition |
+|------|--------------------------|
+| AI Agent | Software that perceives inputs, reasons about them, and takes actions — often using a large language model as its reasoning engine. Unlike a simple automation, an agent can handle variability and make decisions. |
+| Integration | Connecting the agent to an existing system (CRM, email, database, etc.) via API so they can exchange data automatically. |
+| API | A connection point that lets two software systems talk to each other. Most modern SaaS tools have one. |
+| Orchestration | Coordinating multiple agents or automated steps to complete a multi-step workflow. |
+| UAT | User Acceptance Testing — structured testing by the client's team before the agent goes live. |
+| Hypercare | A post-launch period (30 days in our engagements) where we respond quickly to issues and make minor fixes at no additional charge. |
+| n8n / Make / Zapier | Workflow automation platforms that connect tools and can host agent logic. n8n is open-source; Make and Zapier are subscription-based. |
+
+---
+
+*Prepared by [Founder Name] | [Business Name] | [Email] | [Website]*  
+*Version 1.0 — [Date]*
