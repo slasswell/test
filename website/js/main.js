@@ -1,4 +1,4 @@
-/* Bridgeworks Consulting — Main JS */
+/* Forge Solutions — Main JS */
 
 document.addEventListener('DOMContentLoaded', () => {
   initNav();

@@ -1,4 +1,4 @@
-/* Bridgeworks Agent Dashboard — Frontend */
+/* Forge Solutions Agent Dashboard — Frontend */
 
 // ── State ─────────────────────────────────────────────────────────
 const S = {
@@ -571,7 +571,7 @@ function buildChatMessagesHTML() {
   return S.dialog.history.map(msg => {
     const isUser = msg.role === 'user';
     return `<div class="chat-msg ${isUser ? 'chat-msg--user' : 'chat-msg--agent'}">
-      ${!isUser ? '<div class="chat-msg__avatar">BW</div>' : ''}
+      ${!isUser ? '<div class="chat-msg__avatar">FS</div>' : ''}
       <div class="chat-msg__bubble">${esc(msg.content)}</div>
     </div>`;
   }).join('');
@@ -639,7 +639,7 @@ async function sendDialogMessage() {
         <div class="chat-msg__bubble">${esc(message)}</div>
       </div>
       <div class="chat-msg chat-msg--agent chat-msg--typing" id="chat-typing">
-        <div class="chat-msg__avatar">BW</div>
+        <div class="chat-msg__avatar">FS</div>
         <div class="chat-msg__bubble">Thinking…</div>
       </div>`);
     scrollChatToBottom();
