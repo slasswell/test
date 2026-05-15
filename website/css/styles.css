@@ -919,6 +919,30 @@ strong { font-weight: 600; color: var(--text-dark); }
 .footer__copy { font-size: var(--text-sm); color: rgba(255,255,255,0.30); }
 .footer__note { font-size: var(--text-sm); color: rgba(255,255,255,0.30); font-style: italic; }
 
+/* ─── Icon utilities ──────────────────────────────────────────────── */
+.card-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--amber-pale);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-5);
+  color: var(--amber-dark);
+  flex-shrink: 0;
+}
+.problem-item__icon { color: var(--amber-dark); }
+.principle__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--amber-dark);
+  display: flex;
+  align-items: flex-start;
+}
+.cred-tag__icon { display: flex; align-items: center; flex-shrink: 0; }
+.tier-card__duration { display: flex; align-items: center; gap: 5px; }
+
 /* ─── Utilities ────────────────────────────────────────────────────── */
 .text-center { text-align: center; }
 .text-navy   { color: var(--navy) !important; }
