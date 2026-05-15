@@ -8,7 +8,7 @@ const S = {
   prospects: { prospects: [] },
   contentCalendar: { entries: [] },
   intel: { briefs: [], queue: [] },
-  dialog: { history: [], contextItemId: null, loading: false, initialized: false },
+  dialog: { sessionId: 'general', history: [], cache: {}, loading: false },
 };
 
 // ── Utilities ─────────────────────────────────────────────────────
@@ -473,39 +473,37 @@ function toggleBrief(filename) {
 async function renderChat() {
   const el = document.getElementById('view-chat');
 
-  // Load persisted history once per session
-  if (!S.dialog.initialized) {
+  // Load history for current session if not cached
+  if (!S.dialog.cache[S.dialog.sessionId]) {
     try {
-      const data = await api('GET', '/api/dialog/history');
+      const data = await api('GET', `/api/dialog/history?sessionId=${encodeURIComponent(S.dialog.sessionId)}`);
       S.dialog.history = data.history || [];
-    } catch { /* start fresh */ }
-    S.dialog.initialized = true;
+      S.dialog.cache[S.dialog.sessionId] = S.dialog.history;
+    } catch { S.dialog.history = []; }
+  } else {
+    S.dialog.history = S.dialog.cache[S.dialog.sessionId];
   }
 
-  // Fetch pending items for context selector
-  let pending = [];
+  // Fetch prospects for session selector
+  let prospects = [];
   try {
-    const all = await api('GET', '/api/queue/all');
-    pending = all.filter(i => i.status === 'PENDING_APPROVAL');
+    const data = await api('GET', '/api/state/prospects');
+    prospects = (data.prospects || []).sort((a, b) => (b.fitScore || 0) - (a.fitScore || 0));
   } catch { /* skip */ }
 
-  const ctxOpts = [
-    `<option value="">General conversation</option>`,
-    ...pending.map(i =>
-      `<option value="${esc(i.id)}"${S.dialog.contextItemId === i.id ? ' selected' : ''}>${esc(i.type.replace(/_/g, ' '))} — ${esc(i.title.slice(0, 48))}</option>`
-    ),
-  ].join('');
+  const sessionOpts = buildSessionOptions(prospects);
+  const sessionLabel = getSessionLabel(prospects);
 
   el.innerHTML = `
     <div class="chat-wrap">
       <div class="chat-topbar">
         <div>
-          <h1>Agent Dialog</h1>
-          <div class="meta">Ask questions, request edits, or discuss strategy with your agent</div>
+          <h1 class="chat-session-title">${esc(sessionLabel)}</h1>
+          <div class="meta">${S.dialog.sessionId === 'general' ? 'General conversation with your agent' : 'Prospect session — full context loaded'}</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
-          <select class="chat-context-select" id="chat-context" onchange="chatContextChanged(this.value)">
-            ${ctxOpts}
+          <select class="chat-context-select" id="chat-session-select" onchange="switchDialogSession(this.value)">
+            ${sessionOpts}
           </select>
           <button class="btn btn-ghost btn-sm" onclick="clearDialogHistory()">Clear</button>
         </div>
@@ -514,7 +512,7 @@ async function renderChat() {
         ${buildChatMessagesHTML()}
       </div>
       <div class="chat-inputbar">
-        <textarea id="chat-input" placeholder="Ask about a queue item, request changes, or think through strategy… (Enter to send, Shift+Enter for newline)" rows="1"></textarea>
+        <textarea id="chat-input" placeholder="Ask about this lead, review outreach copy, or discuss strategy… (Enter to send, Shift+Enter for newline)" rows="1"></textarea>
         <button class="btn btn-primary chat-send-btn" id="chat-send" onclick="sendDialogMessage()">Send</button>
       </div>
     </div>`;
@@ -532,11 +530,42 @@ async function renderChat() {
   input.focus();
 }
 
+function buildSessionOptions(prospects) {
+  const sid = S.dialog.sessionId;
+  const stageOrder = ['Identified', 'Outreach Drafted', 'Pending Approval', 'Sent', 'Responded', 'Qualified'];
+
+  let opts = `<option value="general"${sid === 'general' ? ' selected' : ''}>General conversation</option>`;
+
+  if (prospects.length > 0) {
+    opts += `<option disabled>── Prospects ──</option>`;
+    prospects.forEach(p => {
+      const val = `prospect:${p.id}`;
+      const label = `${p.company} · ${p.status} · ${p.fitScore}/10`;
+      opts += `<option value="${esc(val)}"${sid === val ? ' selected' : ''}>${esc(label)}</option>`;
+    });
+  }
+
+  return opts;
+}
+
+function getSessionLabel(prospects) {
+  if (S.dialog.sessionId === 'general') return 'Agent Dialog';
+  if (S.dialog.sessionId.startsWith('prospect:')) {
+    const id = S.dialog.sessionId.replace('prospect:', '');
+    const p = prospects.find(p => p.id === id);
+    return p ? p.company : 'Prospect';
+  }
+  return 'Agent Dialog';
+}
+
 function buildChatMessagesHTML() {
   if (S.dialog.history.length === 0) {
+    const hint = S.dialog.sessionId.startsWith('prospect:')
+      ? 'This prospect\'s full record is loaded as context.<br>Ask about their signals, review outreach copy, or plan next steps.'
+      : 'Ask about pending items, request revisions, or think through strategy.';
     return `<div class="empty-state" style="padding:48px 20px">
       <div class="empty-state__icon" style="font-size:1.4rem">◌</div>
-      <p>Start a conversation with your agent.<br>Ask about pending items, request revisions, or think through strategy.</p>
+      <p>${hint}</p>
     </div>`;
   }
   return S.dialog.history.map(msg => {
@@ -548,13 +577,47 @@ function buildChatMessagesHTML() {
   }).join('');
 }
 
+async function switchDialogSession(sessionId) {
+  if (sessionId === S.dialog.sessionId) return;
+
+  // Cache current session
+  S.dialog.cache[S.dialog.sessionId] = S.dialog.history;
+  S.dialog.sessionId = sessionId;
+
+  // Load new session (from cache or server)
+  if (S.dialog.cache[sessionId]) {
+    S.dialog.history = S.dialog.cache[sessionId];
+  } else {
+    try {
+      const data = await api('GET', `/api/dialog/history?sessionId=${encodeURIComponent(sessionId)}`);
+      S.dialog.history = data.history || [];
+      S.dialog.cache[sessionId] = S.dialog.history;
+    } catch { S.dialog.history = []; }
+  }
+
+  // Update messages area and header without full re-render
+  const container = document.getElementById('chat-messages');
+  if (container) container.innerHTML = buildChatMessagesHTML();
+  scrollChatToBottom();
+
+  const title = document.querySelector('.chat-session-title');
+  // Fetch prospects for label update
+  try {
+    const data = await api('GET', '/api/state/prospects');
+    const prospects = data.prospects || [];
+    if (title) title.textContent = getSessionLabel(prospects);
+    const meta = document.querySelector('.chat-topbar .meta');
+    if (meta) meta.textContent = sessionId === 'general'
+      ? 'General conversation with your agent'
+      : 'Prospect session — full context loaded';
+  } catch { /* skip */ }
+
+  document.getElementById('chat-input')?.focus();
+}
+
 function scrollChatToBottom() {
   const el = document.getElementById('chat-messages');
   if (el) el.scrollTop = el.scrollHeight;
-}
-
-function chatContextChanged(itemId) {
-  S.dialog.contextItemId = itemId || null;
 }
 
 async function sendDialogMessage() {
@@ -568,9 +631,7 @@ async function sendDialogMessage() {
   S.dialog.loading = true;
 
   const container = document.getElementById('chat-messages');
-  // Remove empty state if present
-  const emptyState = container?.querySelector('.empty-state');
-  if (emptyState) emptyState.remove();
+  container?.querySelector('.empty-state')?.remove();
 
   if (container) {
     container.insertAdjacentHTML('beforeend', `
@@ -591,10 +652,11 @@ async function sendDialogMessage() {
     const data = await api('POST', '/api/dialog', {
       message,
       history: S.dialog.history,
-      contextItemId: S.dialog.contextItemId,
+      sessionId: S.dialog.sessionId,
     });
 
     S.dialog.history = data.history;
+    S.dialog.cache[S.dialog.sessionId] = data.history;
     S.dialog.loading = false;
 
     const typing = document.getElementById('chat-typing');
@@ -616,9 +678,9 @@ async function sendDialogMessage() {
 
 async function clearDialogHistory() {
   try {
-    await api('DELETE', '/api/dialog/history');
+    await api('DELETE', `/api/dialog/history?sessionId=${encodeURIComponent(S.dialog.sessionId)}`);
     S.dialog.history = [];
-    S.dialog.contextItemId = null;
+    S.dialog.cache[S.dialog.sessionId] = [];
     const container = document.getElementById('chat-messages');
     if (container) container.innerHTML = buildChatMessagesHTML();
     toast('Conversation cleared.', 'info');

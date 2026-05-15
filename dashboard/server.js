@@ -175,17 +175,36 @@ app.get('/api/state/intel-briefs', (req, res) => {
 
 const DIALOG_HISTORY_FILE = path.join(STATE_DIR, 'dialog-history.json');
 
+function readDialogData() {
+  const raw = readJSON(DIALOG_HISTORY_FILE, {});
+  // Migrate old single-session format
+  if (Array.isArray(raw.history) && !raw.sessions) {
+    return { sessions: { general: { history: raw.history, label: 'General', updatedAt: raw.updatedAt } } };
+  }
+  if (!raw.sessions) raw.sessions = {};
+  return raw;
+}
+
 app.get('/api/dialog/history', (req, res) => {
-  res.json(readJSON(DIALOG_HISTORY_FILE, { history: [] }));
+  const sessionId = req.query.sessionId || 'general';
+  const data = readDialogData();
+  const session = data.sessions[sessionId] || {};
+  res.json({ history: session.history || [], sessionId });
 });
 
 app.delete('/api/dialog/history', (req, res) => {
-  writeJSON(DIALOG_HISTORY_FILE, { history: [], updatedAt: new Date().toISOString() });
+  const sessionId = req.query.sessionId || 'general';
+  const data = readDialogData();
+  if (data.sessions[sessionId]) {
+    data.sessions[sessionId].history = [];
+    data.sessions[sessionId].updatedAt = new Date().toISOString();
+    writeJSON(DIALOG_HISTORY_FILE, data);
+  }
   res.json({ ok: true });
 });
 
 app.post('/api/dialog', async (req, res) => {
-  const { message, history = [], contextItemId } = req.body;
+  const { message, history = [], sessionId = 'general' } = req.body;
   if (!message?.trim()) return res.status(400).json({ error: 'message is required' });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -199,28 +218,63 @@ app.post('/api/dialog', async (req, res) => {
 
   let system = `You are the Bridgeworks AI Agent — a strategic business assistant for Scott Lasswell at Bridgeworks Consulting, an AI consulting firm for SMBs based in Denver, CO.
 
-Your role in this dialog:
-- Help Scott review and refine content drafts, outreach emails, and BD prospects in the approval queue
-- Provide strategic guidance on business development, positioning, and competitive response
-- Clarify agent outputs, suggest edits, or recommend approval/rejection with rationale
-- Answer questions about prospects, competitors, or market dynamics
+Your role: help Scott make decisions about BD prospects, review outreach drafts, discuss strategy, and refine content. Be direct and specific — no filler.
 
-Company context: Bridgeworks serves SMBs (5–200 employees) in professional services, healthcare admin, construction, real estate, retail, and logistics. Voice: direct, substantive, no buzzwords. ICP signal: operations-heavy businesses with manual workflow pain.
+Company context: Bridgeworks serves SMBs (5–200 employees) in professional services, healthcare admin, construction, real estate, retail, and logistics. ICP signal: operations-heavy businesses with manual workflow pain.`;
 
-Current queue state:
-- ${pending.length} pending approval
-- ${queueItems.length} total items`;
+  // Prospect session — inject full prospect context
+  let sessionLabel = 'General';
+  if (sessionId.startsWith('prospect:')) {
+    const prospectId = sessionId.replace('prospect:', '');
+    const prospectsData = readJSON(path.join(STATE_DIR, 'prospects.json'), { prospects: [] });
+    const prospect = (prospectsData.prospects || []).find(p => p.id === prospectId);
 
-  if (pending.length > 0) {
-    system += '\n\nPending items:\n' + pending.slice(0, 10).map(i =>
-      `- [${i.type}] "${i.title}"`
-    ).join('\n');
-  }
+    if (prospect) {
+      sessionLabel = prospect.company;
+      const contacts = (prospect.contacts || []).map(c =>
+        `  - ${c.name}, ${c.title}${c.linkedin ? ` (${c.linkedin})` : ''}${c.email ? ` <${c.email}>` : ''}`
+      ).join('\n') || '  (none yet)';
 
-  if (contextItemId) {
-    const found = findItem(contextItemId);
-    if (found) {
-      system += `\n\nFocused item (full content):\nType: ${found.item.type}\nTitle: ${found.item.title}\nStatus: ${found.item.status}\n\n${found.item.body}`;
+      const signals = (prospect.signals || []).map(s => `  - ${s}`).join('\n') || '  (none)';
+
+      system += `\n\n━━ PROSPECT IN FOCUS ━━
+Company: ${prospect.company}
+Industry: ${prospect.industry || '—'}
+Size: ${prospect.size || '—'} employees
+Location: ${prospect.location || '—'}
+Fit Score: ${prospect.fitScore}/10
+Pipeline Stage: ${prospect.status}
+Added: ${prospect.addedAt?.slice(0, 10) || '—'}
+Last Activity: ${prospect.lastActivity?.slice(0, 10) || '—'}
+
+Buying Signals:
+${signals}
+
+Contacts:
+${contacts}
+
+Notes: ${prospect.notes || '(none)'}`;
+
+      // Include any related queue items for this company
+      const related = queueItems.filter(i =>
+        i.status !== 'REJECTED' &&
+        ((i.metadata?.company === prospect.company) ||
+         (i.body || '').toLowerCase().includes(prospect.company.toLowerCase()))
+      ).slice(0, 5);
+
+      if (related.length > 0) {
+        system += `\n\nRelated queue items:\n` + related.map(i =>
+          `  - [${i.type}] "${i.title}" (${i.status})`
+        ).join('\n');
+      }
+    }
+  } else {
+    // General session — summarise queue
+    system += `\n\nQueue: ${pending.length} pending, ${queueItems.length} total.`;
+    if (pending.length > 0) {
+      system += '\nPending:\n' + pending.slice(0, 8).map(i =>
+        `  - [${i.type}] "${i.title}"`
+      ).join('\n');
     }
   }
 
@@ -237,10 +291,13 @@ Current queue state:
     const reply = response.content[0].text;
     const updated = [...messages, { role: 'assistant', content: reply }];
 
-    writeJSON(DIALOG_HISTORY_FILE, {
+    const data = readDialogData();
+    data.sessions[sessionId] = {
       history: updated.slice(-50),
+      label: sessionLabel,
       updatedAt: new Date().toISOString(),
-    });
+    };
+    writeJSON(DIALOG_HISTORY_FILE, data);
 
     res.json({ reply, history: updated });
   } catch (err) {
