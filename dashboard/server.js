@@ -5,6 +5,7 @@ const chokidar = require('chokidar');
 const cors = require('cors');
 const { exec } = require('child_process');
 const Anthropic = require('@anthropic-ai/sdk');
+const { marked } = require('marked');
 
 const app = express();
 const PORT = process.env.DASHBOARD_PORT || 3333;
@@ -169,6 +170,31 @@ app.get('/api/state/intel-briefs', (req, res) => {
     content: fs.readFileSync(path.join(briefsDir, f), 'utf8'),
   }));
   res.json(briefs);
+});
+
+// ── Playbooks ─────────────────────────────────────────────────────────
+
+const PLAYBOOKS_DIR = path.join(PROJECT_DIR, 'playbooks');
+const PLAYBOOK_MANIFEST = [
+  { id: 'discovery-call',          title: 'Discovery Call',              file: 'discovery-call.md' },
+  { id: 'ai-readiness-assessment', title: 'AI Readiness Assessment',     file: 'ai-readiness-assessment.md' },
+];
+
+app.get('/api/playbooks', (req, res) => {
+  const list = PLAYBOOK_MANIFEST.map(p => ({
+    ...p,
+    exists: fs.existsSync(path.join(PLAYBOOKS_DIR, p.file)),
+  }));
+  res.json(list);
+});
+
+app.get('/api/playbooks/:id', (req, res) => {
+  const meta = PLAYBOOK_MANIFEST.find(p => p.id === req.params.id);
+  if (!meta) return res.status(404).json({ error: 'Not found' });
+  const filePath = path.join(PLAYBOOKS_DIR, meta.file);
+  if (!fs.existsSync(filePath)) return res.status(404).json({ error: 'File not found' });
+  const raw = fs.readFileSync(filePath, 'utf8');
+  res.json({ ...meta, html: marked(raw), raw });
 });
 
 // ── Dialog ────────────────────────────────────────────────────────────

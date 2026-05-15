@@ -82,8 +82,9 @@ async function renderView(view) {
     case 'bd':       await renderBD(); break;
     case 'chat':     await renderChat(); break;
     case 'intel':    await renderIntel(); break;
-    case 'log':      await renderLog(); break;
-    case 'settings': renderSettings(); break;
+    case 'log':       await renderLog(); break;
+    case 'playbooks': await renderPlaybooks(); break;
+    case 'settings':  renderSettings(); break;
   }
 }
 
@@ -735,6 +736,69 @@ async function renderLog() {
   } catch (err) {
     el.innerHTML = `<div class="empty-state"><p>Error: ${esc(err.message)}</p></div>`;
   }
+}
+
+// ── Playbooks ─────────────────────────────────────────────────────
+
+const playbookCache = {};
+let activePlaybook = 'discovery-call';
+
+async function renderPlaybooks() {
+  const el = document.getElementById('view-playbooks');
+  el.innerHTML = '<div class="loading">Loading…</div>';
+
+  try {
+    const list = await api('GET', '/api/playbooks');
+
+    const tabs = list.map(p => `
+      <button class="playbook-tab ${p.id === activePlaybook ? 'active' : ''}"
+              onclick="switchPlaybook('${esc(p.id)}')">${esc(p.title)}</button>
+    `).join('');
+
+    el.innerHTML = `
+      <div class="page-header">
+        <div>
+          <h1>Playbooks</h1>
+          <div class="meta">Internal process guides — living documents, iterate freely</div>
+        </div>
+      </div>
+      <div class="playbook-tabs">${tabs}</div>
+      <div class="playbook-body" id="playbook-body">
+        <div class="loading">Loading…</div>
+      </div>`;
+
+    await loadPlaybook(activePlaybook);
+  } catch (err) {
+    el.innerHTML = `<div class="empty-state"><p>Error: ${esc(err.message)}</p></div>`;
+  }
+}
+
+async function loadPlaybook(id) {
+  const body = document.getElementById('playbook-body');
+  if (!body) return;
+
+  if (playbookCache[id]) {
+    body.innerHTML = `<div class="playbook-content">${playbookCache[id]}</div>`;
+    return;
+  }
+
+  body.innerHTML = '<div class="loading">Loading…</div>';
+  try {
+    const data = await api('GET', `/api/playbooks/${encodeURIComponent(id)}`);
+    playbookCache[id] = data.html;
+    body.innerHTML = `<div class="playbook-content">${data.html}</div>`;
+  } catch (err) {
+    body.innerHTML = `<div class="empty-state"><p>Could not load playbook: ${esc(err.message)}</p></div>`;
+  }
+}
+
+async function switchPlaybook(id) {
+  activePlaybook = id;
+  document.querySelectorAll('.playbook-tab').forEach(t => {
+    t.classList.toggle('active', t.textContent.trim() === id ||
+      t.getAttribute('onclick').includes(`'${id}'`));
+  });
+  await loadPlaybook(id);
 }
 
 // ── Settings ──────────────────────────────────────────────────────

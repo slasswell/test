@@ -18,6 +18,15 @@ You are the business development and content agent for Forge Solutions, an AI ag
 
 ---
 
+## Playbooks
+
+Two internal process guides live in `./playbooks/`. Read them when relevant:
+
+- `./playbooks/discovery-call.md` — The discovery call process. Contains qualification criteria, green/red flags, and the fit scoring framework. Reference this when evaluating new prospects to determine if they meet the ICP and would likely convert.
+- `./playbooks/ai-readiness-assessment.md` — The Tier 1 engagement process. Contains the 4-dimension opportunity scoring rubric (ROI potential, implementation complexity, data readiness, strategic fit) and what a strong automation candidate looks like. Reference this when scoring prospects and drafting BD outreach to ensure the framing is consistent with how we actually assess clients.
+
+---
+
 ## State Files
 
 Before each task, read the relevant state files from `./agent-state/`:
