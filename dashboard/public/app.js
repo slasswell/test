@@ -8,6 +8,7 @@ const S = {
   prospects: { prospects: [] },
   contentCalendar: { entries: [] },
   intel: { briefs: [], queue: [] },
+  dialog: { history: [], contextItemId: null, loading: false, initialized: false },
 };
 
 // ── Utilities ─────────────────────────────────────────────────────
@@ -70,6 +71,7 @@ function navigate(view) {
   document.querySelectorAll('.view').forEach(el => {
     el.classList.toggle('active', el.id === `view-${view}`);
   });
+  document.querySelector('.main').classList.toggle('main--chat', view === 'chat');
   renderView(view);
 }
 
@@ -78,6 +80,7 @@ async function renderView(view) {
     case 'queue':    await renderQueue(); break;
     case 'content':  await renderContent(); break;
     case 'bd':       await renderBD(); break;
+    case 'chat':     await renderChat(); break;
     case 'intel':    await renderIntel(); break;
     case 'log':      await renderLog(); break;
     case 'settings': renderSettings(); break;
@@ -463,6 +466,165 @@ async function renderIntel() {
 function toggleBrief(filename) {
   const body = document.getElementById(`brief-${filename}`);
   if (body) body.classList.toggle('open');
+}
+
+// ── Agent Dialog / Chat ───────────────────────────────────────────
+
+async function renderChat() {
+  const el = document.getElementById('view-chat');
+
+  // Load persisted history once per session
+  if (!S.dialog.initialized) {
+    try {
+      const data = await api('GET', '/api/dialog/history');
+      S.dialog.history = data.history || [];
+    } catch { /* start fresh */ }
+    S.dialog.initialized = true;
+  }
+
+  // Fetch pending items for context selector
+  let pending = [];
+  try {
+    const all = await api('GET', '/api/queue/all');
+    pending = all.filter(i => i.status === 'PENDING_APPROVAL');
+  } catch { /* skip */ }
+
+  const ctxOpts = [
+    `<option value="">General conversation</option>`,
+    ...pending.map(i =>
+      `<option value="${esc(i.id)}"${S.dialog.contextItemId === i.id ? ' selected' : ''}>${esc(i.type.replace(/_/g, ' '))} — ${esc(i.title.slice(0, 48))}</option>`
+    ),
+  ].join('');
+
+  el.innerHTML = `
+    <div class="chat-wrap">
+      <div class="chat-topbar">
+        <div>
+          <h1>Agent Dialog</h1>
+          <div class="meta">Ask questions, request edits, or discuss strategy with your agent</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="chat-context-select" id="chat-context" onchange="chatContextChanged(this.value)">
+            ${ctxOpts}
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="clearDialogHistory()">Clear</button>
+        </div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        ${buildChatMessagesHTML()}
+      </div>
+      <div class="chat-inputbar">
+        <textarea id="chat-input" placeholder="Ask about a queue item, request changes, or think through strategy… (Enter to send, Shift+Enter for newline)" rows="1"></textarea>
+        <button class="btn btn-primary chat-send-btn" id="chat-send" onclick="sendDialogMessage()">Send</button>
+      </div>
+    </div>`;
+
+  scrollChatToBottom();
+
+  const input = document.getElementById('chat-input');
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendDialogMessage(); }
+  });
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+  });
+  input.focus();
+}
+
+function buildChatMessagesHTML() {
+  if (S.dialog.history.length === 0) {
+    return `<div class="empty-state" style="padding:48px 20px">
+      <div class="empty-state__icon" style="font-size:1.4rem">◌</div>
+      <p>Start a conversation with your agent.<br>Ask about pending items, request revisions, or think through strategy.</p>
+    </div>`;
+  }
+  return S.dialog.history.map(msg => {
+    const isUser = msg.role === 'user';
+    return `<div class="chat-msg ${isUser ? 'chat-msg--user' : 'chat-msg--agent'}">
+      ${!isUser ? '<div class="chat-msg__avatar">BW</div>' : ''}
+      <div class="chat-msg__bubble">${esc(msg.content)}</div>
+    </div>`;
+  }).join('');
+}
+
+function scrollChatToBottom() {
+  const el = document.getElementById('chat-messages');
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+function chatContextChanged(itemId) {
+  S.dialog.contextItemId = itemId || null;
+}
+
+async function sendDialogMessage() {
+  const input = document.getElementById('chat-input');
+  if (!input) return;
+  const message = input.value.trim();
+  if (!message || S.dialog.loading) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  S.dialog.loading = true;
+
+  const container = document.getElementById('chat-messages');
+  // Remove empty state if present
+  const emptyState = container?.querySelector('.empty-state');
+  if (emptyState) emptyState.remove();
+
+  if (container) {
+    container.insertAdjacentHTML('beforeend', `
+      <div class="chat-msg chat-msg--user">
+        <div class="chat-msg__bubble">${esc(message)}</div>
+      </div>
+      <div class="chat-msg chat-msg--agent chat-msg--typing" id="chat-typing">
+        <div class="chat-msg__avatar">BW</div>
+        <div class="chat-msg__bubble">Thinking…</div>
+      </div>`);
+    scrollChatToBottom();
+  }
+
+  const sendBtn = document.getElementById('chat-send');
+  if (sendBtn) sendBtn.disabled = true;
+
+  try {
+    const data = await api('POST', '/api/dialog', {
+      message,
+      history: S.dialog.history,
+      contextItemId: S.dialog.contextItemId,
+    });
+
+    S.dialog.history = data.history;
+    S.dialog.loading = false;
+
+    const typing = document.getElementById('chat-typing');
+    if (typing) {
+      typing.classList.remove('chat-msg--typing');
+      typing.removeAttribute('id');
+      typing.querySelector('.chat-msg__bubble').textContent = data.reply;
+    }
+    scrollChatToBottom();
+  } catch (err) {
+    S.dialog.loading = false;
+    document.getElementById('chat-typing')?.remove();
+    toast(`Dialog error: ${err.message}`, 'error');
+  } finally {
+    if (sendBtn) sendBtn.disabled = false;
+    document.getElementById('chat-input')?.focus();
+  }
+}
+
+async function clearDialogHistory() {
+  try {
+    await api('DELETE', '/api/dialog/history');
+    S.dialog.history = [];
+    S.dialog.contextItemId = null;
+    const container = document.getElementById('chat-messages');
+    if (container) container.innerHTML = buildChatMessagesHTML();
+    toast('Conversation cleared.', 'info');
+  } catch (err) {
+    toast(`Error: ${err.message}`, 'error');
+  }
 }
 
 // ── Run Log ───────────────────────────────────────────────────────

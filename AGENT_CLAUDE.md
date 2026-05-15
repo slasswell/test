@@ -145,6 +145,22 @@ For each signal found:
 
 Only queue outreach for prospects with fit score ≥ 7.
 
+**Finding the right contact via LinkedIn:**
+
+After identifying a new prospect, search LinkedIn for a decision-maker contact:
+
+```bash
+node executor/integrations/linkedin-research.js \
+  --company "Company Name" \
+  --title "COO OR Operations Manager OR Director of Operations OR VP Operations"
+```
+
+Results are saved to `./agent-state/linkedin-search-results.json`. Read that file and use the best match (title closest to operations decision-maker, at the right company) to populate the `contacts` array in the prospect record.
+
+Target contacts: COO, VP/Director of Operations, CFO, or the founder at companies under 50 employees. Avoid individual contributors and recruiters.
+
+If the script exits with "session expired", note in the prospect record: `"linkedinResearchPending": true` and continue without a contact. If it exits with "no session found", skip LinkedIn research for this run and flag in the run log.
+
 **Outreach email format:**
 - Subject: specific to their situation, not generic
 - 3 short paragraphs: (1) specific observation about their business/signal, (2) what Bridgeworks does and why it's relevant to them, (3) ask for 30 min

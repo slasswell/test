@@ -4,6 +4,7 @@ const fs = require('fs');
 const chokidar = require('chokidar');
 const cors = require('cors');
 const { exec } = require('child_process');
+const Anthropic = require('@anthropic-ai/sdk');
 
 const app = express();
 const PORT = process.env.DASHBOARD_PORT || 3333;
@@ -168,6 +169,84 @@ app.get('/api/state/intel-briefs', (req, res) => {
     content: fs.readFileSync(path.join(briefsDir, f), 'utf8'),
   }));
   res.json(briefs);
+});
+
+// ── Dialog ────────────────────────────────────────────────────────────
+
+const DIALOG_HISTORY_FILE = path.join(STATE_DIR, 'dialog-history.json');
+
+app.get('/api/dialog/history', (req, res) => {
+  res.json(readJSON(DIALOG_HISTORY_FILE, { history: [] }));
+});
+
+app.delete('/api/dialog/history', (req, res) => {
+  writeJSON(DIALOG_HISTORY_FILE, { history: [], updatedAt: new Date().toISOString() });
+  res.json({ ok: true });
+});
+
+app.post('/api/dialog', async (req, res) => {
+  const { message, history = [], contextItemId } = req.body;
+  if (!message?.trim()) return res.status(400).json({ error: 'message is required' });
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'ANTHROPIC_API_KEY not set — add it to ~/.agent_env' });
+  }
+
+  const client = new Anthropic({ apiKey });
+  const queueItems = readAllQueueItems();
+  const pending = queueItems.filter(i => i.status === 'PENDING_APPROVAL');
+
+  let system = `You are the Bridgeworks AI Agent — a strategic business assistant for Scott Lasswell at Bridgeworks Consulting, an AI consulting firm for SMBs based in Denver, CO.
+
+Your role in this dialog:
+- Help Scott review and refine content drafts, outreach emails, and BD prospects in the approval queue
+- Provide strategic guidance on business development, positioning, and competitive response
+- Clarify agent outputs, suggest edits, or recommend approval/rejection with rationale
+- Answer questions about prospects, competitors, or market dynamics
+
+Company context: Bridgeworks serves SMBs (5–200 employees) in professional services, healthcare admin, construction, real estate, retail, and logistics. Voice: direct, substantive, no buzzwords. ICP signal: operations-heavy businesses with manual workflow pain.
+
+Current queue state:
+- ${pending.length} pending approval
+- ${queueItems.length} total items`;
+
+  if (pending.length > 0) {
+    system += '\n\nPending items:\n' + pending.slice(0, 10).map(i =>
+      `- [${i.type}] "${i.title}"`
+    ).join('\n');
+  }
+
+  if (contextItemId) {
+    const found = findItem(contextItemId);
+    if (found) {
+      system += `\n\nFocused item (full content):\nType: ${found.item.type}\nTitle: ${found.item.title}\nStatus: ${found.item.status}\n\n${found.item.body}`;
+    }
+  }
+
+  const messages = [...history, { role: 'user', content: message }];
+
+  try {
+    const response = await client.messages.create({
+      model: 'claude-opus-4-7',
+      max_tokens: 1500,
+      system,
+      messages,
+    });
+
+    const reply = response.content[0].text;
+    const updated = [...messages, { role: 'assistant', content: reply }];
+
+    writeJSON(DIALOG_HISTORY_FILE, {
+      history: updated.slice(-50),
+      updatedAt: new Date().toISOString(),
+    });
+
+    res.json({ reply, history: updated });
+  } catch (err) {
+    console.error('[dialog]', err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ── Agent run trigger ─────────────────────────────────────────────────
