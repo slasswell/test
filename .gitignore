@@ -1,3 +1,27 @@
 __pycache__/
 *.pyc
 *.pyo
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Agent secrets — never commit
+.env
+*.env
+agent_env
+.agent_env
+
+# Process PID files
+.dashboard.pid
+.executor.pid
+
+# Runtime logs (local-only)
+logs/*.log
+
+# LinkedIn staging and pending patches (generated output)
+agent-state/linkedin-staging/
+agent-state/pending-patches/
+
+# Published posts output directory
+published/

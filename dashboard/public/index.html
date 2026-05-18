@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forge Solutions Agent Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <span class="sidebar__logo">Forge<span>.</span>Agent</span>
+        <span id="live-indicator" class="live-dot" title="Live updates active"></span>
+      </div>
+      <nav class="sidebar__nav">
+        <button class="nav-item active" data-view="queue">
+          <span class="nav-item__icon">◈</span>
+          <span>Approval Queue</span>
+          <span id="badge-queue" class="badge" style="display:none"></span>
+        </button>
+        <button class="nav-item" data-view="content">
+          <span class="nav-item__icon">✎</span>
+          <span>Content Queue</span>
+        </button>
+        <button class="nav-item" data-view="bd">
+          <span class="nav-item__icon">⬡</span>
+          <span>BD Pipeline</span>
+        </button>
+        <button class="nav-item" data-view="chat">
+          <span class="nav-item__icon">◌</span>
+          <span>Agent Dialog</span>
+        </button>
+        <button class="nav-item" data-view="intel">
+          <span class="nav-item__icon">◎</span>
+          <span>Intel</span>
+        </button>
+        <button class="nav-item" data-view="log">
+          <span class="nav-item__icon">≡</span>
+          <span>Run Log</span>
+        </button>
+        <button class="nav-item" data-view="playbooks">
+          <span class="nav-item__icon">≡</span>
+          <span>Playbooks</span>
+        </button>
+        <button class="nav-item" data-view="finance">
+          <span class="nav-item__icon">◉</span>
+          <span>Finance</span>
+        </button>
+        <button class="nav-item" data-view="settings">
+          <span class="nav-item__icon">⚙</span>
+          <span>Settings</span>
+        </button>
+      </nav>
+      <div class="sidebar__footer">
+        <button id="run-btn" class="run-trigger" onclick="triggerRun('daily')">
+          ▶ Run Daily Now
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div id="view-queue"   class="view active"></div>
+      <div id="view-content" class="view"></div>
+      <div id="view-bd"      class="view"></div>
+      <div id="view-chat"    class="view"></div>
+      <div id="view-intel"   class="view"></div>
+      <div id="view-log"       class="view"></div>
+      <div id="view-playbooks" class="view"></div>
+      <div id="view-finance"   class="view"></div>
+      <div id="view-settings"  class="view"></div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" style="display:none"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

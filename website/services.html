@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services &amp; Pricing — Forge Solutions</title>
+  <meta name="description" content="Four service tiers for SMB AI adoption: AI Readiness Assessment, Agent Blueprint, Agent Build & Deploy, and ongoing Retainer. Transparent, fixed-fee pricing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .services-nav {
+      position: sticky;
+      top: 68px;
+      z-index: 50;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+    .services-nav__inner {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .services-nav__inner::-webkit-scrollbar { display: none; }
+    .services-nav a {
+      flex-shrink: 0;
+      display: block;
+      padding: var(--space-4) var(--space-6);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--text-light);
+      text-decoration: none;
+      border-bottom: 3px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+      white-space: nowrap;
+    }
+    .services-nav a:hover { color: var(--navy); border-color: var(--amber); }
+
+    .tier-section { padding: var(--space-20) 0; }
+    .tier-section + .tier-section { padding-top: 0; }
+
+    .tier-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-8);
+      margin-bottom: var(--space-10);
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .tier-header__left {}
+    .tier-header__right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .price-display {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.1;
+    }
+    .price-display small {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--text-light);
+      display: block;
+    }
+    .duration-tag {
+      display: inline-block;
+      margin-top: var(--space-2);
+      background: var(--offwhite);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+    }
+
+    .includes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-3);
+      margin-top: var(--space-6);
+    }
+    .include-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+    }
+    .include-item::before {
+      content: '✓';
+      font-weight: 700;
+      color: var(--amber-dark);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      margin-top: var(--space-6);
+    }
+    .pricing-table th {
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 600;
+      font-size: var(--text-xs);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .pricing-table th:last-child { text-align: right; }
+    .pricing-table td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border);
+      color: var(--text-mid);
+      vertical-align: top;
+    }
+    .pricing-table td:last-child { text-align: right; font-weight: 600; color: var(--navy); }
+    .pricing-table tr:last-child td { border-bottom: none; }
+    .pricing-table tr:hover td { background: var(--offwhite); }
+
+    .retainer-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-sm);
+      margin-top: var(--space-6);
+    }
+    .retainer-table th {
+      padding: var(--space-4);
+      text-align: center;
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 600;
+    }
+    .retainer-table th:first-child { text-align: left; }
+    .retainer-table td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-mid);
+    }
+    .retainer-table td:first-child { text-align: left; font-weight: 500; color: var(--text-dark); }
+    .retainer-table .price-row td {
+      font-family: var(--font-heading);
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--navy);
+      border-bottom: none;
+    }
+    .check { color: var(--amber-dark); font-weight: 700; }
+    .dash  { color: var(--text-light); }
+
+    .principle-list { display: flex; flex-direction: column; gap: var(--space-4); }
+    .principle {
+      display: flex;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      align-items: flex-start;
+    }
+    .principle__icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 2px; }
+    .principle strong { display: block; font-size: var(--text-base); color: var(--navy); margin-bottom: var(--space-1); }
+    .principle p { font-size: var(--text-sm); margin: 0; }
+
+    @media (max-width: 640px) {
+      .tier-header { flex-direction: column; }
+      .tier-header__right { text-align: left; }
+      .includes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────────── -->
+<header class="nav" role="banner">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">Forge<span>.</span>Solutions</a>
+      <nav class="nav__links" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/services.html">Services</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html" class="nav__cta">Book a Free Call</a>
+      </nav>
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__mobile" aria-label="Mobile navigation">
+    <a href="/">Home</a>
+    <a href="/how-it-works.html">How It Works</a>
+    <a href="/services.html">Services</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html" class="nav__cta-mobile">Book a Free Call →</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ── Page Hero ──────────────────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Services &amp; Pricing</span>
+    <h1>Four Ways to Work Together</h1>
+    <p>
+      Each tier is designed around where you are in your AI journey.
+      Most clients enter at Tier 1. Every tier earns the next — not through
+      pressure, but through results.
+    </p>
+  </div>
+</section>
+
+<!-- ── Services Sub-Nav ────────────────────────────────────────────── -->
+<nav class="services-nav" aria-label="Service tiers">
+  <div class="container">
+    <div class="services-nav__inner">
+      <a href="#tier1">Tier 1 — Assessment</a>
+      <a href="#tier2">Tier 2 — Blueprint</a>
+      <a href="#tier3">Tier 3 — Build &amp; Deploy</a>
+      <a href="#tier4">Tier 4 — Retainer</a>
+      <a href="#addons">Add-Ons</a>
+      <a href="#principles">Our Principles</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Tier 1 ───────────────────────────────────────────────────────── -->
+<section class="tier-section" id="tier1">
+  <div class="container">
+    <div class="tier-header">
+      <div class="tier-header__left">
+        <span class="eyebrow">Tier 1</span>
+        <h2>AI Readiness Assessment</h2>
+        <p style="max-width:560px; font-size: var(--text-lg); margin-top: var(--space-3);">
+          Know exactly where AI can help your business — before spending a dollar on building it.
+        </p>
+      </div>
+      <div class="tier-header__right">
+        <div class="price-display">$2,500–$5,000<small>fixed fee · scope-tiered</small></div>
+        <span class="duration-tag">1–2 weeks</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <div>
+        <h4>What It Is</h4>
+        <p>
+          A structured intake and discovery engagement that maps your core workflows,
+          identifies automation opportunities, and delivers a clear prioritized roadmap.
+          This is the right starting point for any business that knows AI is relevant
+          but isn't sure where to focus.
+        </p>
+        <p>
+          We run sessions with the people who actually do the work — not just leadership.
+          We build process maps together, annotate the pain points, and score every
+          candidate opportunity on four dimensions: ROI potential, implementation
+          complexity, data readiness, and strategic fit.
+        </p>
+
+        <h4 style="margin-top: 1.5rem;">What You Receive</h4>
+        <div class="includes-grid">
+          <div class="include-item">Pre-engagement intake call (60 min)</div>
+          <div class="include-item">Written intake questionnaire</div>
+          <div class="include-item">2–3 workflow discovery sessions</div>
+          <div class="include-item">Process maps for 3–8 workflows</div>
+          <div class="include-item">Opportunity scorecard (4 dimensions)</div>
+          <div class="include-item">Top 3 prioritized recommendations</div>
+          <div class="include-item">Rough effort &amp; cost estimates</div>
+          <div class="include-item">Implementation sequencing</div>
+          <div class="include-item">AI Agent Opportunity Report (10–20 pp)</div>
+          <div class="include-item">Live readout + Q&amp;A (60 min)</div>
+        </div>
+      </div>
+
+      <div>
+        <h4>Pricing by Scope</h4>
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>Scope</th>
+              <th>Workflows</th>
+              <th>Departments</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Focused</strong></td>
+              <td>Up to 3</td>
+              <td>1–2</td>
+              <td>$2,500</td>
+            </tr>
+            <tr>
+              <td><strong>Standard</strong></td>
+              <td>Up to 5</td>
+              <td>2–3</td>
+              <td>$3,750</td>
+            </tr>
+            <tr>
+              <td><strong>Comprehensive</strong></td>
+              <td>Up to 8</td>
+              <td>3–5</td>
+              <td>$5,000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card mt-6" style="background: var(--amber-pale); border-color: var(--amber-light);">
+          <strong>50% at kickoff · 50% at delivery</strong>
+          <p style="margin-top: var(--space-2); font-size: var(--text-sm);">
+            The Assessment fee is credited toward a Tier 2 or Tier 3 engagement
+            started within 90 days. The report is yours to keep regardless of what comes next.
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <a href="/contact.html" class="btn btn--primary">Start With an Assessment</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="background: var(--border); height: 1px;"></div>
+
+<!-- ── Tier 2 ───────────────────────────────────────────────────────── -->
+<section class="tier-section section--offwhite" id="tier2">
+  <div class="container">
+    <div class="tier-header">
+      <div class="tier-header__left">
+        <span class="eyebrow">Tier 2</span>
+        <h2>Agent Blueprint</h2>
+        <p style="max-width:560px; font-size: var(--text-lg); margin-top: var(--space-3);">
+          A complete plan for what to build, how, and what it will cost — before a single line of code is written.
+        </p>
+      </div>
+      <div class="tier-header__right">
+        <div class="price-display">$5,000–$12,000<small>fixed fee · scope-tiered</small></div>
+        <span class="duration-tag">2–4 weeks</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <div>
+        <h4>What It Is</h4>
+        <p>
+          The Blueprint takes your top 1–2 priorities from the Assessment
+          (or a client-supplied use case) and produces a complete implementation plan.
+          This is a standalone strategic deliverable — specific enough that any
+          qualified builder could execute from it.
+        </p>
+        <p>
+          You receive the complete Agent Blueprint Document and walk through it
+          together before any build decision is made. Most Blueprint clients
+          convert to a Tier 3 build — because the Blueprint process builds
+          the trust and specificity that removes hesitation.
+        </p>
+
+        <h4 style="margin-top: 1.5rem;">What You Receive</h4>
+        <div class="includes-grid">
+          <div class="include-item">Requirements workshop (2–4 hrs)</div>
+          <div class="include-item">Current → future state workflow redesign</div>
+          <div class="include-item">Tool &amp; platform recommendation + rationale</div>
+          <div class="include-item">Integration map (all systems the agent touches)</div>
+          <div class="include-item">Data flow diagram</div>
+          <div class="include-item">Build timeline with milestones</div>
+          <div class="include-item">Risk register + mitigations</div>
+          <div class="include-item">ROI model (your numbers, not benchmarks)</div>
+          <div class="include-item">Agent Blueprint Document (15–30 pp)</div>
+          <div class="include-item">Blueprint walkthrough + Q&amp;A (90 min)</div>
+        </div>
+      </div>
+
+      <div>
+        <h4>Pricing by Complexity</h4>
+        <table class="pricing-table">
+          <thead>
+            <tr><th>Complexity</th><th>Description</th><th>Price</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Standard</strong></td>
+              <td>1 use case · clear workflow · 1–3 integrations</td>
+              <td>$5,000–$7,500</td>
+            </tr>
+            <tr>
+              <td><strong>Complex</strong></td>
+              <td>2 use cases or 1 complex workflow with 4+ integrations</td>
+              <td>$8,000–$12,000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card mt-6" style="background: var(--amber-pale); border-color: var(--amber-light);">
+          <strong>50% at kickoff · 50% at delivery</strong>
+          <p style="margin-top: var(--space-2); font-size: var(--text-sm);">
+            If you completed a Tier 1 Assessment with us, that fee is credited toward this engagement.
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <a href="/contact.html" class="btn btn--primary">Get a Blueprint Quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="background: var(--border); height: 1px;"></div>
+
+<!-- ── Tier 3 ───────────────────────────────────────────────────────── -->
+<section class="tier-section" id="tier3">
+  <div class="container">
+    <div class="tier-header">
+      <div class="tier-header__left">
+        <span class="eyebrow">Tier 3</span>
+        <h2>Agent Build &amp; Deploy</h2>
+        <p style="max-width:560px; font-size: var(--text-lg); margin-top: var(--space-3);">
+          A working AI agent, integrated into your environment, tested by your team, and yours to keep.
+        </p>
+      </div>
+      <div class="tier-header__right">
+        <div class="price-display">$10,000–$40,000+<small>fixed fee · scoped per project</small></div>
+        <span class="duration-tag">4–12 weeks</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap: 3rem; align-items: start;">
+      <div>
+        <h4>What It Is</h4>
+        <p>
+          Full design, build, testing, and deployment of one or more AI agents.
+          Every build is fixed-fee and milestone-based. You know what you're paying
+          and what you'll get at each stage — no surprises.
+        </p>
+        <p>
+          We build iteratively: by the end of week 2, you'll see a working draft of
+          the agent. Two structured review rounds. User acceptance testing. Production
+          deployment. Complete documentation. Team training. And 30 days of hypercare
+          after launch.
+        </p>
+
+        <h4 style="margin-top: 1.5rem;">What You Receive</h4>
+        <div class="includes-grid">
+          <div class="include-item">Solution design validation</div>
+          <div class="include-item">Agent architecture + tool finalization</div>
+          <div class="include-item">Iterative build (draft visible by week 2)</div>
+          <div class="include-item">2 structured review rounds</div>
+          <div class="include-item">System integrations (CRM, email, APIs, DBs)</div>
+          <div class="include-item">User acceptance testing support</div>
+          <div class="include-item">Production deployment</div>
+          <div class="include-item">Agent runbook + maintenance guide</div>
+          <div class="include-item">Integration diagram</div>
+          <div class="include-item">Team training (up to 2 hrs)</div>
+          <div class="include-item">30-day hypercare (bugs + minor fixes)</div>
+          <div class="include-item">Full code + docs transfer at close</div>
+        </div>
+
+        <p style="font-size: var(--text-sm); margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--border); color: var(--text-mid);">Tool and platform selection is based entirely on your workflow — never on vendor relationships. We recommend from across the automation landscape and build custom where the off-the-shelf options don't fit.</p>
+      </div>
+
+      <div>
+        <h4>Pricing by Complexity</h4>
+        <table class="pricing-table">
+          <thead>
+            <tr><th>Complexity</th><th>Description</th><th>Range</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Light</strong></td>
+              <td>Single-function agent · 1–2 integrations</td>
+              <td>$10K–$18K</td>
+            </tr>
+            <tr>
+              <td><strong>Standard</strong></td>
+              <td>Multi-step workflow · 3–5 integrations</td>
+              <td>$18K–$30K</td>
+            </tr>
+            <tr>
+              <td><strong>Complex</strong></td>
+              <td>Multi-agent orchestration · 5+ integrations · custom logic</td>
+              <td>$30K–$40K+</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="card mt-6" style="background: var(--amber-pale); border-color: var(--amber-light);">
+          <strong>Milestone billing: kickoff (33%) · UAT (33%) · launch (34%)</strong>
+          <p style="margin-top: var(--space-2); font-size: var(--text-sm);">
+            All builds are scoped via a complimentary 60-minute requirements session before
+            a proposal is issued. Scope changes require a signed change order before additional
+            work begins.
+          </p>
+        </div>
+
+        <div class="mt-6">
+          <a href="/contact.html" class="btn btn--primary">Schedule a Scoping Call</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="background: var(--border); height: 1px;"></div>
+
+<!-- ── Tier 4 ───────────────────────────────────────────────────────── -->
+<section class="tier-section section--offwhite" id="tier4">
+  <div class="container">
+    <div class="tier-header">
+      <div class="tier-header__left">
+        <span class="eyebrow">Tier 4</span>
+        <h2>Retainer &amp; Agent Maintenance</h2>
+        <p style="max-width:560px; font-size: var(--text-lg); margin-top: var(--space-3);">
+          Your agents keep working — and keep improving.
+        </p>
+      </div>
+      <div class="tier-header__right">
+        <div class="price-display">$1,500–$4,000<small>/month · month-to-month</small></div>
+        <span class="duration-tag">3-month minimum to start</span>
+      </div>
+    </div>
+
+    <p style="max-width: 680px; margin-bottom: var(--space-8);">
+      AI agents aren't set-and-forget. Upstream systems change, business processes shift,
+      and new opportunities emerge as your team builds confidence. Our retainer keeps agents
+      healthy, responds quickly when something breaks, and proactively surfaces what to work
+      on next.
+    </p>
+
+    <h4>Plan Comparison</h4>
+    <table class="retainer-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Essentials</th>
+          <th>Growth</th>
+          <th>Partner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Advisory + dev hours/month</td><td>4 hrs</td><td>8 hrs</td><td>16 hrs</td></tr>
+        <tr><td>Agents covered</td><td>Up to 2</td><td>Up to 5</td><td>Unlimited</td></tr>
+        <tr><td>Performance monitoring</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Bug fixes + minor updates</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Monthly check-in call (30 min)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>New opportunity identification</td><td>Quarterly</td><td>Quarterly</td><td>Monthly</td></tr>
+        <tr><td>Dedicated Slack / Teams channel</td><td class="dash">—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Quarterly strategy session (1 hr)</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+        <tr><td>Critical issue response SLA</td><td>2 business days</td><td>Next business day</td><td>Same business day</td></tr>
+        <tr class="price-row">
+          <td>Monthly price</td>
+          <td>$1,500</td>
+          <td>$2,500</td>
+          <td>$4,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card mt-6" style="max-width: 560px; background: var(--amber-pale); border-color: var(--amber-light);">
+      <strong>Month-to-month after the 3-month minimum</strong>
+      <p style="margin-top: var(--space-2); font-size: var(--text-sm);">
+        30-day cancellation notice. Unused hours do not roll over.
+        Overages billed at $175/hr.
+      </p>
+    </div>
+
+    <div class="mt-6">
+      <a href="/contact.html" class="btn btn--primary">Ask About Retainer Plans</a>
+    </div>
+  </div>
+</section>
+
+<div style="background: var(--border); height: 1px;"></div>
+
+<!-- ── Add-Ons ─────────────────────────────────────────────────────── -->
+<section class="tier-section" id="addons">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow">Add-Ons</span>
+      <h2>Available with Any Engagement</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <h4>AI Readiness Workshop</h4>
+        <div class="tier-card__price" style="font-size: var(--text-xl); margin: .5rem 0;">$1,500</div>
+        <p>A 2-hour facilitated workshop to align your leadership team on what AI agents are, what to expect, and how to evaluate opportunities. Ideal before or alongside a Tier 1 Assessment.</p>
+      </div>
+      <div class="card">
+        <h4>Integration Sprint</h4>
+        <div class="tier-card__price" style="font-size: var(--text-xl); margin: .5rem 0;">$2,500–$6,000</div>
+        <p>A dedicated sprint to connect a new data source or SaaS tool to an existing agent — for when your systems change or a new integration opportunity emerges.</p>
+      </div>
+      <div class="card">
+        <h4>Agent Audit</h4>
+        <div class="tier-card__price" style="font-size: var(--text-xl); margin: .5rem 0;">$2,500</div>
+        <p>An independent review of an AI agent built by another vendor. We assess performance, accuracy, security posture, and improvement opportunities — and give you a plain-language report.</p>
+      </div>
+      <div class="card">
+        <h4>Staff Training Package</h4>
+        <div class="tier-card__price" style="font-size: var(--text-xl); margin: .5rem 0;">$1,800</div>
+        <p>Structured training for the team working alongside AI agents: documentation, a recorded walkthrough, and a live Q&amp;A session — beyond the standard handoff training.</p>
+      </div>
+      <div class="card">
+        <h4>Expanded UAT Round</h4>
+        <div class="tier-card__price" style="font-size: var(--text-xl); margin: .5rem 0;">$1,500/round</div>
+        <p>Additional structured user testing cycles and facilitated feedback sessions beyond the standard two rounds included in a Tier 3 build.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Principles ──────────────────────────────────────────────────── -->
+<section class="section section--offwhite" id="principles">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow">How We Work</span>
+      <h2>Principles That Govern Every Engagement</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="principle-list">
+        <div class="principle">
+          <div class="principle__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <div>
+            <strong>Fixed-fee by default</strong>
+            <p>You know what you're paying before work begins. No hourly ambiguity, no invoices that surprise you.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+          <div>
+            <strong>You own everything we build</strong>
+            <p>Code, documentation, diagrams — all of it transfers to you at close. You are never dependent on us to keep your agents running.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg></div>
+          <div>
+            <strong>Vendor-agnostic, always</strong>
+            <p>We do not accept referral fees or commissions from any tool vendor. Recommendations are based on fit — full stop.</p>
+          </div>
+        </div>
+      </div>
+      <div class="principle-list">
+        <div class="principle">
+          <div class="principle__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div>
+            <strong>Honest scoping</strong>
+            <p>If a project is outside our current capabilities or too risky to promise well, we'll say so and refer you to a better-suited resource rather than overpromise.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div>
+            <strong>Progress is always visible</strong>
+            <p>Every implementation engagement includes a shared project board — milestones, status, open decisions — updated weekly. No black-box consulting.</p>
+          </div>
+        </div>
+        <div class="principle">
+          <div class="principle__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+          <div>
+            <strong>No scope creep by default</strong>
+            <p>Scope beyond the signed SOW requires a change order before work begins. You will never be surprised by additional charges.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Decision Guide ─────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section__header section__header--center">
+      <span class="eyebrow">Not Sure Where to Start?</span>
+      <h2>Use This to Decide</h2>
+    </div>
+    <div class="grid-4" style="gap: 1.5rem;">
+      <div class="card" style="border-top: 3px solid var(--amber);">
+        <div class="tier-card__num">If…</div>
+        <p style="font-size: var(--text-sm);">You're not sure where AI fits in your business or which workflows to prioritize</p>
+        <div class="mt-4"><strong style="color: var(--navy); font-size: var(--text-sm);">→ Start with Tier 1</strong></div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--amber);">
+        <div class="tier-card__num">If…</div>
+        <p style="font-size: var(--text-sm);">You have a specific use case but want a detailed plan before committing to a build</p>
+        <div class="mt-4"><strong style="color: var(--navy); font-size: var(--text-sm);">→ Start with Tier 2</strong></div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--amber);">
+        <div class="tier-card__num">If…</div>
+        <p style="font-size: var(--text-sm);">You have a well-scoped use case and are ready to invest in building it</p>
+        <div class="mt-4"><strong style="color: var(--navy); font-size: var(--text-sm);">→ Start with Tier 3</strong></div>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--amber);">
+        <div class="tier-card__num">If…</div>
+        <p style="font-size: var(--text-sm);">You have agents deployed but want monitoring, maintenance, and continued growth</p>
+        <div class="mt-4"><strong style="color: var(--navy); font-size: var(--text-sm);">→ Start with Tier 4</strong></div>
+      </div>
+    </div>
+    <div class="text-center mt-8">
+      <p style="margin-bottom: var(--space-4);">Still not sure? Book a free 30-minute call and we'll figure it out together.</p>
+      <a href="/contact.html" class="btn btn--primary btn--lg">Book a Free Discovery Call</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ─────────────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="container">
+    <span class="eyebrow" style="color: var(--amber-light);">Get Started</span>
+    <h2>Every Engagement Starts With One Conversation</h2>
+    <p>A free, no-pressure 30-minute call. We'll talk about your business and whether any of this is the right fit.</p>
+    <div class="btn-group">
+      <a href="/contact.html" class="btn btn--primary btn--lg">Book Your Free Call</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="/" class="footer__logo">Forge<span>.</span>Solutions</a>
+        <p class="footer__tagline">AI agent consulting and implementation for small and mid-sized businesses. No hype. No lock-in. Just results your team can see.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="/services.html#tier1">AI Readiness Assessment</a></li>
+          <li><a href="/services.html#tier2">Agent Blueprint</a></li>
+          <li><a href="/services.html#tier3">Agent Build &amp; Deploy</a></li>
+          <li><a href="/services.html#tier4">Retainer &amp; Support</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="/how-it-works.html">How It Works</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Book a Call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2026 Forge Solutions. All rights reserved.</span>
+      <span class="footer__note">Vendor-agnostic. Client-first. No AI hype.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

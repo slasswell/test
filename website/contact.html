@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Free Discovery Call — Forge Solutions</title>
+  <meta name="description" content="Schedule your free 30-minute discovery call. We'll talk about your business and whether AI agents are the right fit — no pitch, no pressure.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+
+    .what-to-expect { margin-top: var(--space-10); }
+    .expect-list { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-5); }
+    .expect-item {
+      display: flex;
+      gap: var(--space-4);
+      align-items: flex-start;
+      padding: var(--space-4);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .expect-item__icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 700;
+      font-family: var(--font-heading);
+    }
+    .expect-item strong { display: block; font-size: var(--text-sm); color: var(--navy); margin-bottom: 2px; }
+    .expect-item p      { font-size: var(--text-sm); margin: 0; }
+
+    .contact-form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow);
+    }
+    .contact-form-card h3 { margin-bottom: var(--space-2); }
+    .contact-form-card > p { font-size: var(--text-sm); margin-bottom: var(--space-6); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+
+    .form-status { display: none; padding: 12px 16px; border-radius: 6px; font-size: .875rem; margin-top: 12px; }
+    .form-status--success { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .form-status--error   { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+
+    /* Calendly section */
+    .booking-section {
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid var(--border);
+    }
+    .booking-section h3 { margin-bottom: var(--space-2); font-size: var(--text-xl); }
+    .booking-section > p { font-size: var(--text-sm); margin-bottom: var(--space-5); color: var(--text-mid); }
+
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin: var(--space-6) 0;
+      color: var(--text-light);
+      font-size: var(--text-sm);
+    }
+    .divider-label::before,
+    .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────────────── -->
+<header class="nav" role="banner">
+  <div class="container">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">Forge<span>.</span>Solutions</a>
+      <nav class="nav__links" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/services.html">Services</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html" class="nav__cta">Book a Free Call</a>
+      </nav>
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav__mobile" aria-label="Mobile navigation">
+    <a href="/">Home</a>
+    <a href="/how-it-works.html">How It Works</a>
+    <a href="/services.html">Services</a>
+    <a href="/about.html">About</a>
+    <a href="/contact.html" class="nav__cta-mobile">Book a Free Call →</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ── Page Hero ──────────────────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Get Started</span>
+    <h1>Book Your Free 30-Minute Discovery Call</h1>
+    <p>
+      No pitch deck, no prepared slides. Just a real conversation about your
+      business and whether AI agents are the right fit — for you, right now.
+    </p>
+  </div>
+</section>
+
+<!-- ── Contact Body ────────────────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="contact-layout">
+
+      <!-- Left: Context -->
+      <div>
+        <span class="eyebrow">What to Expect</span>
+        <h2>In 30 Minutes, We'll Cover</h2>
+        <p>
+          The goal of this call is mutual: you get a clear sense of whether we're
+          a good fit, and so do I. No pressure, no obligation after the call.
+        </p>
+
+        <div class="what-to-expect">
+          <div class="expect-list">
+            <div class="expect-item">
+              <div class="expect-item__icon">1</div>
+              <div>
+                <strong>Your business and where you are right now</strong>
+                <p>Tell me what you do, how your team works, and what's taking more time or effort than it should.</p>
+              </div>
+            </div>
+            <div class="expect-item">
+              <div class="expect-item__icon">2</div>
+              <div>
+                <strong>What you've already tried</strong>
+                <p>Any AI tools, automation experiments, or previous implementations — successful or not. Context matters.</p>
+              </div>
+            </div>
+            <div class="expect-item">
+              <div class="expect-item__icon">3</div>
+              <div>
+                <strong>Where the friction is</strong>
+                <p>We'll talk through 1–2 of your biggest operational pain points and whether they're good candidates for automation.</p>
+              </div>
+            </div>
+            <div class="expect-item">
+              <div class="expect-item__icon">4</div>
+              <div>
+                <strong>An honest recommendation</strong>
+                <p>If there's a clear fit, I'll tell you what I'd suggest as a starting point and why. If it's not the right fit, I'll tell you that too — and point you somewhere useful.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-8" style="background: var(--amber-pale); border-color: var(--amber-light);">
+          <h4>Prefer email first?</h4>
+          <p style="font-size: var(--text-sm); margin-top: var(--space-2);">
+            No problem. Use the form to the right to introduce yourself and I'll
+            reply within one business day. We can schedule from there.
+          </p>
+          <p style="margin-top: var(--space-2);">
+            <strong>Direct email:</strong>
+            <a href="mailto:hello@forgesolutions.com">hello@forgesolutions.com</a>
+          </p>
+        </div>
+
+        <div class="card mt-5">
+          <h4>Not sure if you're ready?</h4>
+          <p style="font-size: var(--text-sm); margin-top: var(--space-2);">
+            You don't need a clear use case or a budget decided before we talk.
+            "I know AI should be relevant to my business but I don't know where
+            to start" is a perfectly good reason to schedule a call. That's
+            exactly what the first conversation is for.
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Booking + Form -->
+      <div>
+        <div class="contact-form-card">
+
+          <!-- Calendly / Cal.com Embed -->
+          <div class="booking-section">
+            <h3>Book Directly</h3>
+            <p>Choose a time that works for you. Calendar invites and a brief prep note will be sent automatically.</p>
+
+            <!-- ════════════════════════════════════════════════════════
+                 TODO: Replace this placeholder with your actual embed.
+
+                 CALENDLY: Go to calendly.com → Event Types → Copy embed code.
+                 Paste the <div class="calendly-inline-widget"> here and
+                 add the Calendly script tag before </body>.
+
+                 CAL.COM: Go to cal.com → Event Types → Embed → Copy inline embed.
+
+                 Both are free for basic use.
+                 ════════════════════════════════════════════════════════ -->
+            <div class="booking-placeholder">
+              <strong>Calendar Booking</strong>
+              <p style="margin-top: .75rem;">
+                Embed your Calendly or Cal.com scheduling widget here.<br>
+                See the HTML comment in this file for setup instructions.
+              </p>
+              <a
+                href="/contact.html"
+                class="btn btn--primary btn--sm"
+                style="display: inline-flex; margin-top: .75rem;"
+              >Set Up Calendly →</a>
+            </div>
+          </div>
+
+          <div class="divider-label">or send a message instead</div>
+
+          <!-- Contact Form -->
+          <h3 style="font-size: var(--text-xl);">Send a Message</h3>
+          <p>I'll reply within one business day to schedule a time.</p>
+
+          <form
+            id="contact-form"
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            novalidate
+          >
+            <input type="hidden" name="form-name" value="contact">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Your name <span>*</span></label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Jane Smith"
+                  required
+                  autocomplete="name"
+                >
+              </div>
+              <div class="form-group">
+                <label for="email">Email address <span>*</span></label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="jane@yourcompany.com"
+                  required
+                  autocomplete="email"
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="company">Company / Business name</label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  placeholder="Acme Logistics LLC"
+                  autocomplete="organization"
+                >
+              </div>
+              <div class="form-group">
+                <label for="size">Team size</label>
+                <select id="size" name="size">
+                  <option value="" disabled selected>Select…</option>
+                  <option>1–10 employees</option>
+                  <option>11–50 employees</option>
+                  <option>51–200 employees</option>
+                  <option>200+ employees</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="industry">Industry</label>
+              <select id="industry" name="industry">
+                <option value="" disabled selected>Select your industry…</option>
+                <option>Professional Services (Law, Accounting, Consulting)</option>
+                <option>Healthcare Administration</option>
+                <option>Construction &amp; Trades</option>
+                <option>Retail</option>
+                <option>Real Estate</option>
+                <option>Logistics &amp; Supply Chain</option>
+                <option>Financial Services</option>
+                <option>Marketing &amp; Agencies</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">
+                What's the biggest operational pain point on your plate right now? <span>*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="E.g. 'We spend hours every week manually compiling reports from three different systems…'"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="prior-ai">Have you tried any AI or automation tools already?</label>
+              <select id="prior-ai" name="prior_ai">
+                <option value="" disabled selected>Select…</option>
+                <option>No — we're just starting to explore</option>
+                <option>We've experimented informally (ChatGPT, etc.)</option>
+                <option>We've tried a specific tool — with mixed results</option>
+                <option>We have some automation running already</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="how">How did you hear about us?</label>
+              <select id="how" name="how_found">
+                <option value="" disabled selected>Select…</option>
+                <option>Referral from someone I know</option>
+                <option>LinkedIn</option>
+                <option>Google / search</option>
+                <option>Local business network</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <!-- Netlify honeypot -->
+            <p style="display:none"><input name="bot-field"></p>
+
+            <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center;">
+              Send Message
+            </button>
+
+            <div id="form-status" class="form-status" role="alert" aria-live="polite"></div>
+
+            <p class="form-note mt-4">
+              I typically respond within one business day. If you'd prefer to book
+              directly, use the calendar widget above.
+            </p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ─────────────────────────────────────────────────────────── -->
+<section class="section section--offwhite">
+  <div class="container">
+    <div class="section__header">
+      <span class="eyebrow">Before You Reach Out</span>
+      <h2>A Few Quick Answers</h2>
+    </div>
+
+    <div class="faq" style="max-width: 760px;">
+      <div class="faq-item">
+        <div class="faq-item__q">Is the discovery call really free?</div>
+        <div class="faq-item__a">
+          Yes, entirely. No credit card, no hidden commitment. The 30-minute call
+          is designed to help both of us decide whether working together makes sense.
+          If it does, I'll explain what the logical first step looks like. If it doesn't,
+          I'll tell you that honestly and point you somewhere useful.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__q">What should I prepare before the call?</div>
+        <div class="faq-item__a">
+          Nothing required. It helps to think about 1–2 workflows that feel the most
+          repetitive, time-consuming, or error-prone. But you don't need to have a use
+          case prepared, a budget decided, or a tech stack documented. We'll figure that
+          out together.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__q">What if I'm not sure my business is big enough?</div>
+        <div class="faq-item__a">
+          If you have at least 5 employees and at least a few repetitive workflows
+          that eat time, you're in the right place. Some of the best AI agent
+          implementations are at small businesses where even modest time savings
+          have a big operational impact.
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__q">Do you work with businesses outside my area?</div>
+        <div class="faq-item__a">
+          Yes. All discovery sessions, Blueprint work, and implementation reviews happen
+          over video call. I work with clients across the country. In-person is available
+          for clients in Denver, CO — mention it when we talk.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a href="/" class="footer__logo">Forge<span>.</span>Solutions</a>
+        <p class="footer__tagline">AI agent consulting and implementation for small and mid-sized businesses. No hype. No lock-in. Just results your team can see.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="/services.html#tier1">AI Readiness Assessment</a></li>
+          <li><a href="/services.html#tier2">Agent Blueprint</a></li>
+          <li><a href="/services.html#tier3">Agent Build &amp; Deploy</a></li>
+          <li><a href="/services.html#tier4">Retainer &amp; Support</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="/how-it-works.html">How It Works</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Book a Call</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2026 Forge Solutions. All rights reserved.</span>
+      <span class="footer__note">Vendor-agnostic. Client-first. No AI hype.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
