@@ -748,4 +748,165 @@ a { color: var(--amber); text-decoration: none; }
 }
 .chat-inputbar textarea:focus { outline: none; border-color: var(--amber-dim); }
 .chat-inputbar textarea::placeholder { color: var(--text-muted); }
+
+/* ── Finance Models ──────────────────────────────────────────────── */
+.fin-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.fin-tab {
+  padding: 7px 16px 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-mid);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  border-radius: 0;
+  transition: color var(--transition), border-color var(--transition);
+}
+.fin-tab:hover { color: var(--text); }
+.fin-tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+.fin-grid {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.fin-inputs-col { display: flex; flex-direction: column; gap: 12px; }
+.fin-results-col { min-width: 0; }
+
+.fin-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+.fin-panel__title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.fin-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.fin-field:last-child { margin-bottom: 0; }
+.fin-field label { font-size: 0.8rem; color: var(--text-mid); flex: 1; min-width: 0; }
+.fin-field input,
+.fin-field select {
+  width: 120px;
+  flex-shrink: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.82rem;
+  padding: 5px 8px;
+  text-align: right;
+}
+.fin-field select { width: 160px; text-align: left; cursor: pointer; }
+.fin-field input:focus,
+.fin-field select:focus { outline: none; border-color: var(--amber-dim); }
+
+.fin-metric-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.fin-metric {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 13px 15px;
+}
+.fin-metric__label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.fin-metric__value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--amber);
+}
+.fin-v-pos   { color: var(--green); }
+.fin-v-amber { color: var(--amber); }
+.fin-v-neg   { color: var(--red); }
+.fin-v-cost  { color: var(--red); }
+
+.fin-table-wrap { margin-bottom: 20px; }
+.fin-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.fin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.fin-table th {
+  background: var(--bg-raised);
+  color: var(--text);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.fin-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-mid);
+  white-space: nowrap;
+}
+.fin-table tfoot td {
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 0.82rem;
+}
+.fin-table tr:last-child td { border-bottom: none; }
+.fin-table--compact td { padding: 5px 12px; font-size: 0.78rem; }
+
+.fin-pos { color: var(--green); }
+.fin-neg { color: var(--red); }
+
+.fin-highlight-row td { background: var(--amber-glow); color: var(--text); }
+.fin-breakeven-row td { background: var(--green-glow); color: var(--text); }
+.fin-total-row td { background: var(--bg-raised); font-weight: 600; color: var(--text); border-top: 1px solid var(--border); }
+
+@media (max-width: 960px) {
+  .fin-grid        { grid-template-columns: 1fr; }
+  .fin-metric-row  { grid-template-columns: repeat(2, 1fr); }
+}
 .chat-send-btn { height: 44px; padding: 0 18px; border-radius: var(--radius-lg); flex-shrink: 0; }

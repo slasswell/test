@@ -84,6 +84,7 @@ async function renderView(view) {
     case 'intel':    await renderIntel(); break;
     case 'log':       await renderLog(); break;
     case 'playbooks': await renderPlaybooks(); break;
+    case 'finance':   renderFinance(); break;
     case 'settings':  renderSettings(); break;
   }
 }
@@ -843,6 +844,413 @@ function renderSettings() {
       <div class="settings-row"><label>Port</label><span class="value">${window.location.port || 3333}</span></div>
       <div class="settings-row"><label>Host</label><span class="value">localhost only (not exposed externally)</span></div>
     </div>`;
+}
+
+// ── Finance Models ────────────────────────────────────────────────
+
+const CLAUDE_MODELS = {
+  opus:   { label: 'Opus 4.7',   inputPer1M: 15.00, outputPer1M: 75.00 },
+  sonnet: { label: 'Sonnet 4.6', inputPer1M:  3.00, outputPer1M: 15.00 },
+  haiku:  { label: 'Haiku 4.5',  inputPer1M:  0.80, outputPer1M:  4.00 },
+};
+
+const FIN_DEFAULTS = {
+  roi: {
+    workflowHours: 40, teamSize: 2, avgHourlyRate: 55,
+    forgeInvestment: 12000, automationPct: 65,
+    apiModel: 'sonnet', monthlyInputMtok: 1.5, monthlyOutputMtok: 0.4,
+  },
+  biz: {
+    t1PerYear: 2, t1Avg: 3500,
+    t2PerYear: 3, t2Avg: 8000,
+    t3PerYear: 0, t3Avg: 20000,
+    retainerCount: 1, retainerAvg: 2500,
+    closeRate: 25,
+    opsCostAPI: 200, opsCostSoftware: 400, opsCostInsurance: 200,
+    opsCostMarketing: 300, opsCostProfessional: 250, opsCostOther: 100,
+  },
+};
+
+let finState = null;
+let finTab = 'roi';
+let _finSaveTimer = null;
+
+function finLoad() {
+  if (finState) return;
+  try {
+    const saved = JSON.parse(localStorage.getItem('forge_finance') || '{}');
+    finState = {
+      roi: { ...FIN_DEFAULTS.roi, ...(saved.roi || {}) },
+      biz: { ...FIN_DEFAULTS.biz, ...(saved.biz || {}) },
+    };
+  } catch {
+    finState = JSON.parse(JSON.stringify(FIN_DEFAULTS));
+  }
+}
+
+function finSave() {
+  clearTimeout(_finSaveTimer);
+  _finSaveTimer = setTimeout(() => {
+    try { localStorage.setItem('forge_finance', JSON.stringify(finState)); } catch { /* quota */ }
+  }, 300);
+}
+
+function renderFinance() {
+  finLoad();
+  const el = document.getElementById('view-finance');
+  el.innerHTML = `
+    <div class="page-header">
+      <div><h1>Financial Models</h1><div class="meta">Client ROI analysis &amp; internal business planning</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="finReset()">Reset defaults</button>
+    </div>
+    <div class="fin-tabs">
+      <button class="fin-tab ${finTab === 'roi' ? 'active' : ''}" onclick="switchFinTab('roi')">Client ROI Analysis</button>
+      <button class="fin-tab ${finTab === 'biz' ? 'active' : ''}" onclick="switchFinTab('biz')">Business Model</button>
+    </div>
+    <div id="fin-roi-view" style="${finTab !== 'roi' ? 'display:none' : ''}">${buildROIView()}</div>
+    <div id="fin-biz-view" style="${finTab !== 'biz' ? 'display:none' : ''}">${buildBizView()}</div>`;
+  recalcROI();
+  recalcBiz();
+}
+
+function switchFinTab(tab) {
+  finTab = tab;
+  document.querySelectorAll('.fin-tab').forEach((t, i) => {
+    t.classList.toggle('active', (i === 0 && tab === 'roi') || (i === 1 && tab === 'biz'));
+  });
+  document.getElementById('fin-roi-view').style.display = tab === 'roi' ? '' : 'none';
+  document.getElementById('fin-biz-view').style.display = tab === 'biz' ? '' : 'none';
+}
+
+function finReset() {
+  finState = JSON.parse(JSON.stringify(FIN_DEFAULTS));
+  finSave();
+  renderFinance();
+  toast('Reset to defaults.', 'info');
+}
+
+function finSet(section, key, rawVal) {
+  const num = parseFloat(rawVal);
+  finState[section][key] = isNaN(num) ? rawVal : num;
+  finSave();
+  if (section === 'roi') recalcROI();
+  else recalcBiz();
+}
+
+function setFV(id, text, cls) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  if (cls !== undefined) el.className = cls;
+}
+
+function fmtC(n) {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n || 0);
+}
+function fmtPct(n) { return !isFinite(n) ? 'N/A' : (n >= 0 ? '+' : '') + n.toFixed(0) + '%'; }
+function fmtMo(n)  { return (!isFinite(n) || n < 0) ? 'Never' : n.toFixed(1) + ' mo'; }
+
+function fI(label, section, key, val, attrs = {}) {
+  const a = Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ');
+  return `<div class="fin-field">
+    <label>${label}</label>
+    <input type="number" value="${val}" ${a} oninput="finSet('${section}','${key}',this.value)">
+  </div>`;
+}
+
+// ── ROI View ─────────────────────────────────────────────────────
+
+function buildROIView() {
+  const r = finState.roi;
+  const modelOpts = Object.entries(CLAUDE_MODELS).map(([k, m]) =>
+    `<option value="${k}" ${r.apiModel === k ? 'selected' : ''}>${m.label} — $${m.inputPer1M}/$${m.outputPer1M}/MTok</option>`
+  ).join('');
+
+  return `<div class="fin-grid">
+    <div class="fin-inputs-col">
+      <div class="fin-panel">
+        <div class="fin-panel__title">Current Workflow Cost</div>
+        ${fI('Hours/week on this process', 'roi', 'workflowHours', r.workflowHours, {min:1,max:160,step:1})}
+        ${fI('People involved', 'roi', 'teamSize', r.teamSize, {min:1,max:50,step:1})}
+        ${fI('Fully-loaded hourly cost ($)', 'roi', 'avgHourlyRate', r.avgHourlyRate, {min:10,max:500,step:5})}
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel__title">Forge Engagement</div>
+        ${fI('Engagement investment ($)', 'roi', 'forgeInvestment', r.forgeInvestment, {min:0,step:500})}
+        ${fI('Automation coverage (%)', 'roi', 'automationPct', r.automationPct, {min:10,max:100,step:5})}
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel__title">Claude API Usage</div>
+        <div class="fin-field">
+          <label>Model</label>
+          <select onchange="finSet('roi','apiModel',this.value)">${modelOpts}</select>
+        </div>
+        ${fI('Input tokens/month (MTok)', 'roi', 'monthlyInputMtok', r.monthlyInputMtok, {min:0,step:0.1})}
+        ${fI('Output tokens/month (MTok)', 'roi', 'monthlyOutputMtok', r.monthlyOutputMtok, {min:0,step:0.1})}
+      </div>
+    </div>
+    <div class="fin-results-col">
+      <div class="fin-metric-row">
+        <div class="fin-metric"><div class="fin-metric__label">Monthly savings</div><div class="fin-metric__value" id="roi-m-savings">—</div></div>
+        <div class="fin-metric"><div class="fin-metric__label">Monthly API cost</div><div class="fin-metric__value fin-v-cost" id="roi-m-api">—</div></div>
+        <div class="fin-metric"><div class="fin-metric__label">Net monthly benefit</div><div class="fin-metric__value" id="roi-m-net">—</div></div>
+        <div class="fin-metric"><div class="fin-metric__label">Break-even</div><div class="fin-metric__value" id="roi-breakeven">—</div></div>
+      </div>
+      <div class="fin-table-wrap">
+        <div class="fin-section-title">ROI by Time Horizon</div>
+        <table class="fin-table">
+          <thead><tr><th>Horizon</th><th>Gross Savings</th><th>Total Cost</th><th>Net Value</th><th>ROI</th></tr></thead>
+          <tbody id="roi-horizon-body"></tbody>
+        </table>
+      </div>
+      <div class="fin-table-wrap">
+        <div class="fin-section-title">12-Month Alternative Comparison</div>
+        <table class="fin-table">
+          <thead><tr><th>Option</th><th>Upfront</th><th>Monthly Ongoing</th><th>12-mo Savings</th><th>12-mo Net</th></tr></thead>
+          <tbody id="roi-alt-body"></tbody>
+        </table>
+      </div>
+      <div class="fin-table-wrap">
+        <div class="fin-section-title">API Cost Detail</div>
+        <table class="fin-table">
+          <thead><tr><th>Component</th><th>Rate</th><th>Monthly Volume</th><th>Monthly Cost</th></tr></thead>
+          <tbody id="roi-api-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+function recalcROI() {
+  const r = finState.roi;
+  const model = CLAUDE_MODELS[r.apiModel] || CLAUDE_MODELS.sonnet;
+
+  const monthlyHours = r.workflowHours * r.teamSize * 52 / 12;
+  const monthlySavings = monthlyHours * r.avgHourlyRate * (r.automationPct / 100);
+  const monthlyAPICost = (r.monthlyInputMtok * model.inputPer1M) + (r.monthlyOutputMtok * model.outputPer1M);
+  const monthlyNet = monthlySavings - monthlyAPICost;
+  const breakEvenMonths = monthlyNet > 0 ? r.forgeInvestment / monthlyNet : Infinity;
+
+  function netAtMonth(m) {
+    const savings = monthlySavings * m;
+    const cost = r.forgeInvestment + monthlyAPICost * m;
+    return { savings, cost, net: savings - cost, roi: (savings - cost) / Math.max(cost, 1) * 100 };
+  }
+
+  setFV('roi-m-savings', fmtC(monthlySavings));
+  setFV('roi-m-api', fmtC(monthlyAPICost));
+  setFV('roi-m-net', fmtC(monthlyNet), `fin-metric__value ${monthlyNet >= 0 ? 'fin-v-pos' : 'fin-v-neg'}`);
+  setFV('roi-breakeven', fmtMo(breakEvenMonths),
+    `fin-metric__value ${breakEvenMonths <= 12 ? 'fin-v-pos' : breakEvenMonths <= 24 ? 'fin-v-amber' : 'fin-v-neg'}`);
+
+  const hBody = document.getElementById('roi-horizon-body');
+  if (hBody) {
+    hBody.innerHTML = [6, 12, 24, 36].map(m => {
+      const { savings, cost, net, roi } = netAtMonth(m);
+      return `<tr>
+        <td>${m} months</td><td>${fmtC(savings)}</td><td>${fmtC(cost)}</td>
+        <td class="${net >= 0 ? 'fin-pos' : 'fin-neg'}">${fmtC(net)}</td>
+        <td class="${roi >= 0 ? 'fin-pos' : 'fin-neg'}">${fmtPct(roi)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  const monthlyLaborFull = monthlyHours * r.avgHourlyRate;
+  const contractorMo = r.workflowHours * r.teamSize * 52 / 12 * 90;
+  const alts = [
+    { name: 'Forge Solutions',     upfront: r.forgeInvestment, monthly: monthlyAPICost,
+      savings12: monthlySavings * 12, net12: netAtMonth(12).net, highlight: true },
+    { name: 'Do Nothing',          upfront: 0, monthly: 0,
+      savings12: 0, net12: -(monthlyLaborFull * 12), highlight: false },
+    { name: 'New Hire (est.)',      upfront: 8000, monthly: 6500,
+      savings12: monthlySavings * 12 * 0.55, net12: monthlySavings * 12 * 0.55 - 8000 - 6500 * 12, highlight: false },
+    { name: 'Contractor ($90/hr)',  upfront: 0, monthly: contractorMo,
+      savings12: monthlySavings * 12 * 0.4, net12: monthlySavings * 12 * 0.4 - contractorMo * 12, highlight: false },
+  ];
+
+  const altBody = document.getElementById('roi-alt-body');
+  if (altBody) {
+    altBody.innerHTML = alts.map(a => `<tr${a.highlight ? ' class="fin-highlight-row"' : ''}>
+      <td style="font-weight:600">${esc(a.name)}</td>
+      <td>${fmtC(a.upfront)}</td><td>${fmtC(a.monthly)}</td><td>${fmtC(a.savings12)}</td>
+      <td class="${a.net12 >= 0 ? 'fin-pos' : 'fin-neg'}">${fmtC(a.net12)}</td>
+    </tr>`).join('');
+  }
+
+  const apiBody = document.getElementById('roi-api-body');
+  if (apiBody) {
+    const inCost  = r.monthlyInputMtok  * model.inputPer1M;
+    const outCost = r.monthlyOutputMtok * model.outputPer1M;
+    apiBody.innerHTML = `
+      <tr><td>Input tokens</td><td>$${model.inputPer1M}/MTok</td><td>${r.monthlyInputMtok} MTok</td><td>${fmtC(inCost)}</td></tr>
+      <tr><td>Output tokens</td><td>$${model.outputPer1M}/MTok</td><td>${r.monthlyOutputMtok} MTok</td><td>${fmtC(outCost)}</td></tr>
+      <tr class="fin-total-row"><td>Total</td><td colspan="2"></td><td>${fmtC(monthlyAPICost)}</td></tr>`;
+  }
+}
+
+// ── Business Model View ───────────────────────────────────────────
+
+function buildBizView() {
+  const b = finState.biz;
+  return `<div class="fin-grid">
+    <div class="fin-inputs-col">
+      <div class="fin-panel">
+        <div class="fin-panel__title">Revenue — Engagements / Year</div>
+        ${fI('Tier 1 engagements', 'biz', 't1PerYear', b.t1PerYear, {min:0,step:1})}
+        ${fI('Tier 1 avg fee ($)', 'biz', 't1Avg', b.t1Avg, {min:0,step:500})}
+        ${fI('Tier 2 engagements', 'biz', 't2PerYear', b.t2PerYear, {min:0,step:1})}
+        ${fI('Tier 2 avg fee ($)', 'biz', 't2Avg', b.t2Avg, {min:0,step:500})}
+        ${fI('Tier 3 engagements', 'biz', 't3PerYear', b.t3PerYear, {min:0,step:0.5})}
+        ${fI('Tier 3 avg fee ($)', 'biz', 't3Avg', b.t3Avg, {min:0,step:1000})}
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel__title">Revenue — Retainers</div>
+        ${fI('Active retainer clients', 'biz', 'retainerCount', b.retainerCount, {min:0,step:1})}
+        ${fI('Avg monthly rate ($)', 'biz', 'retainerAvg', b.retainerAvg, {min:0,step:100})}
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel__title">Operating Costs / Month</div>
+        ${fI('Claude API usage ($)', 'biz', 'opsCostAPI', b.opsCostAPI, {min:0,step:25})}
+        ${fI('Software subscriptions ($)', 'biz', 'opsCostSoftware', b.opsCostSoftware, {min:0,step:25})}
+        ${fI('Insurance ($)', 'biz', 'opsCostInsurance', b.opsCostInsurance, {min:0,step:25})}
+        ${fI('Marketing / lead gen ($)', 'biz', 'opsCostMarketing', b.opsCostMarketing, {min:0,step:25})}
+        ${fI('Legal / professional ($)', 'biz', 'opsCostProfessional', b.opsCostProfessional, {min:0,step:25})}
+        ${fI('Other ($)', 'biz', 'opsCostOther', b.opsCostOther, {min:0,step:25})}
+      </div>
+      <div class="fin-panel">
+        <div class="fin-panel__title">Pipeline</div>
+        ${fI('Discovery call close rate (%)', 'biz', 'closeRate', b.closeRate, {min:1,max:100,step:5})}
+      </div>
+    </div>
+    <div class="fin-results-col">
+      <div class="fin-metric-row">
+        <div class="fin-metric"><div class="fin-metric__label">Annual revenue</div><div class="fin-metric__value fin-v-pos" id="biz-annual-rev">—</div></div>
+        <div class="fin-metric"><div class="fin-metric__label">Annual opex</div><div class="fin-metric__value fin-v-cost" id="biz-annual-ops">—</div></div>
+        <div class="fin-metric"><div class="fin-metric__label">Annual net income</div><div class="fin-metric__value" id="biz-annual-net">—</div></div>
+        <div class="fin-metric"><div class="fin-metric__label">Calls needed / month</div><div class="fin-metric__value" id="biz-calls-needed">—</div></div>
+      </div>
+      <div class="fin-table-wrap">
+        <div class="fin-section-title">12-Month P&amp;L Projection</div>
+        <table class="fin-table fin-table--compact">
+          <thead><tr><th>Mo</th><th>Revenue</th><th>Opex</th><th>Gross Profit</th><th>Cumulative</th></tr></thead>
+          <tbody id="biz-proj-body"></tbody>
+          <tfoot><tr>
+            <td><strong>Total</strong></td>
+            <td id="biz-proj-rev-total"></td>
+            <td id="biz-proj-ops-total"></td>
+            <td id="biz-proj-net-total"></td>
+            <td></td>
+          </tr></tfoot>
+        </table>
+      </div>
+      <div class="fin-table-wrap">
+        <div class="fin-section-title">Revenue Mix</div>
+        <table class="fin-table">
+          <thead><tr><th>Tier</th><th>Range</th><th>Units/yr</th><th>Avg Fee</th><th>Annual Rev</th><th>Share</th></tr></thead>
+          <tbody id="biz-mix-body"></tbody>
+        </table>
+      </div>
+      <div class="fin-table-wrap">
+        <div class="fin-section-title">Operating Cost Breakdown</div>
+        <table class="fin-table">
+          <thead><tr><th>Category</th><th>Monthly</th><th>Annual</th></tr></thead>
+          <tbody id="biz-ops-body"></tbody>
+          <tfoot><tr>
+            <td><strong>Total</strong></td>
+            <td id="biz-ops-mo-total"></td>
+            <td id="biz-ops-yr-total"></td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+function recalcBiz() {
+  const b = finState.biz;
+
+  const annualProjectFee = b.t1PerYear * b.t1Avg + b.t2PerYear * b.t2Avg + b.t3PerYear * b.t3Avg;
+  const annualRetainerRev = b.retainerCount * b.retainerAvg * 12;
+  const annualRevenue = annualProjectFee + annualRetainerRev;
+
+  const monthlyOps = b.opsCostAPI + b.opsCostSoftware + b.opsCostInsurance +
+                     b.opsCostMarketing + b.opsCostProfessional + b.opsCostOther;
+  const annualOps = monthlyOps * 12;
+  const annualNet = annualRevenue - annualOps;
+
+  const totalEngPerYear = b.t1PerYear + b.t2PerYear + b.t3PerYear;
+  const callsPerMonth = totalEngPerYear / Math.max(b.closeRate / 100, 0.01) / 12;
+
+  setFV('biz-annual-rev', fmtC(annualRevenue));
+  setFV('biz-annual-ops', fmtC(annualOps));
+  setFV('biz-annual-net', fmtC(annualNet), `fin-metric__value ${annualNet >= 0 ? 'fin-v-pos' : 'fin-v-neg'}`);
+  setFV('biz-calls-needed', callsPerMonth.toFixed(1) + '/mo');
+
+  const projBody = document.getElementById('biz-proj-body');
+  if (projBody) {
+    let cumul = 0, totalRev = 0, totalOps = 0, totalNet = 0;
+    const rows = [];
+    for (let mo = 1; mo <= 12; mo++) {
+      const ramp = mo <= 2 ? 0.4 : 1.0;
+      const rev  = (annualRevenue / 12) * ramp;
+      const net  = rev - monthlyOps;
+      const prevCumul = cumul;
+      cumul += net;
+      totalRev += rev; totalOps += monthlyOps; totalNet += net;
+      const isBreakEven = cumul >= 0 && prevCumul < 0;
+      rows.push(`<tr${isBreakEven ? ' class="fin-breakeven-row"' : ''}>
+        <td>${mo}</td>
+        <td>${fmtC(rev)}</td>
+        <td class="fin-neg">(${fmtC(monthlyOps)})</td>
+        <td class="${net >= 0 ? 'fin-pos' : 'fin-neg'}">${fmtC(net)}</td>
+        <td class="${cumul >= 0 ? 'fin-pos' : 'fin-neg'}">${fmtC(cumul)}</td>
+      </tr>`);
+    }
+    projBody.innerHTML = rows.join('');
+    setFV('biz-proj-rev-total', fmtC(totalRev));
+    setFV('biz-proj-ops-total', '(' + fmtC(totalOps) + ')');
+    setFV('biz-proj-net-total', fmtC(totalNet));
+  }
+
+  const mixBody = document.getElementById('biz-mix-body');
+  if (mixBody) {
+    const tiers = [
+      { name: 'Tier 1 — Assessment',      range: '$2,500–5K',    count: b.t1PerYear,      avg: b.t1Avg },
+      { name: 'Tier 2 — Implementation',  range: '$5K–12K',      count: b.t2PerYear,      avg: b.t2Avg },
+      { name: 'Tier 3 — Enterprise',       range: '$10K–40K+',    count: b.t3PerYear,      avg: b.t3Avg },
+      { name: 'Retainers',                 range: '$1.5K–4K/mo',  count: b.retainerCount,  avg: b.retainerAvg * 12, unitLabel: b.retainerCount + ' clients' },
+    ];
+    const totalAnnual = tiers.reduce((s, t) => s + t.count * t.avg, 0);
+    mixBody.innerHTML = tiers.map(t => {
+      const rev = t.count * t.avg;
+      const share = totalAnnual > 0 ? (rev / totalAnnual * 100).toFixed(0) : 0;
+      return `<tr>
+        <td style="font-weight:600">${esc(t.name)}</td>
+        <td style="color:var(--text-muted);font-size:.75rem">${esc(t.range)}</td>
+        <td>${t.unitLabel || t.count}</td>
+        <td>${fmtC(t.avg)}</td>
+        <td>${fmtC(rev)}</td>
+        <td>${share}%</td>
+      </tr>`;
+    }).join('');
+  }
+
+  const opsBody = document.getElementById('biz-ops-body');
+  if (opsBody) {
+    const cats = [
+      ['Claude API usage',       b.opsCostAPI],
+      ['Software subscriptions', b.opsCostSoftware],
+      ['Insurance',              b.opsCostInsurance],
+      ['Marketing / lead gen',   b.opsCostMarketing],
+      ['Legal / professional',   b.opsCostProfessional],
+      ['Other',                  b.opsCostOther],
+    ];
+    opsBody.innerHTML = cats.map(([name, mo]) =>
+      `<tr><td>${esc(name)}</td><td>${fmtC(mo)}</td><td>${fmtC(mo * 12)}</td></tr>`
+    ).join('');
+    setFV('biz-ops-mo-total', fmtC(monthlyOps));
+    setFV('biz-ops-yr-total', fmtC(annualOps));
+  }
 }
 
 // ── Trigger run ───────────────────────────────────────────────────
